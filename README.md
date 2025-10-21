@@ -161,8 +161,7 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 ---
 
 # Diagrama de Casos de Uso
-
-[imagem]
+<img width="875" height="1937" alt="CasosUso drawio" src="https://github.com/user-attachments/assets/c24627f0-ead9-4036-802e-a334fcc87e7e" />
 
 ---
 
