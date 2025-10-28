@@ -188,6 +188,7 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 
 # Diagrama de Implantação
 
-[imagem]
+<img width="1191" height="808" alt="diagramaImplantacao-Página-3 drawio" src="https://github.com/user-attachments/assets/db10934b-7740-4cee-a7be-9d2148d0fe50" />
+
 
 
