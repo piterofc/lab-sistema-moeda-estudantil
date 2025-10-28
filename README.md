@@ -181,7 +181,8 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 
 # Diagrama ER
 
-[imagem]
+<img width="1081" height="891" alt="diagramaER drawio" src="https://github.com/user-attachments/assets/06078276-5398-406b-ba14-b6d3f7f9a757" />
+
 
 ---
 
