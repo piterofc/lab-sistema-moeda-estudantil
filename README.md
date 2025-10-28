@@ -167,13 +167,15 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 
 # Diagrama de Classes
 
-[imagem]
+<img width="850" height="1942" alt="diagrama_classes" src="https://github.com/user-attachments/assets/916c30ad-f735-464d-8a11-db25c9371f23" />
+
 
 ---
 
 # Diagrama de Componentes
 
-[imagem]
+<img width="850" height="1940" alt="diagrama_componentes drawio" src="https://github.com/user-attachments/assets/06efbaee-2ca4-4512-a655-4803618dc1fe" />
+
 
 ---
 
