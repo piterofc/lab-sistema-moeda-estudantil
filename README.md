@@ -14,6 +14,8 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 
 ---
 
+# Historias de Usuario
+
 Épico 1: Gestão e Configuração
 
 Como operador, quero gerenciar as instituições participantes, para manter apenas instituições válidas e pré-cadastradas.
