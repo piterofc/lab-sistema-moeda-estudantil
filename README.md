@@ -14,151 +14,59 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 
 ---
 
-# Histórias de Usuário
+Épico 1: Gestão e Configuração
 
-### Épico 1: Gestão e Configuração (Funcionalidades da Instituição/Operação)
+Como operador, quero gerenciar as instituições participantes, para manter apenas instituições válidas e pré-cadastradas.
 
-**US01: Gerenciar Instituições Participantes**
+Como operador, quero importar e manter a lista de professores, para que possam ativar suas contas e distribuir moedas.
 
-* Como um **Operador**,
-* Eu quero **criar, visualizar, editar e inativar instituições participantes**,
-* Para que **os alunos se vinculem apenas a instituições válidas e pré-cadastradas**.
+Como operador, quero aprovar ou inativar parceiros e revisar vantagens cadastradas, para garantir qualidade e conformidade no catálogo.
 
-**US02: Gerenciar Professores Pré-Cadastrados**
+Como parceiro, quero gerenciar minhas vantagens com título, descrição, foto e custo em moedas, para manter as ofertas atualizadas.
 
-* Como um **Operador**,
-* Eu quero **importar e manter a lista de professores (nome, CPF, departamento, instituição)**,
-* Para que **os docentes possam ativar suas contas e distribuir moedas**.
+Como parceiro (empresa), quero me cadastrar informando meus dados e CNPJ, para poder oferecer vantagens no sistema.
 
-**US03: Gerenciar Parceiros e Vantagens (Curadoria/Aprovação)**
+Épico 2: Jornada do Aluno
 
-* Como um **Operador**,
-* Eu quero **aprovar ou inativar parceiros e revisar vantagens cadastradas (título, descrição, foto, custo em moedas)**,
-* Para que **o catálogo mantenha qualidade e conformidade**.
+Como aluno, quero realizar meu cadastro informando meus dados pessoais e acadêmicos, para participar do sistema de mérito.
 
-**US04: Gerenciar Catálogo de Vantagens (Parceiro)**
+Como usuário, quero fazer login com e-mail e senha, para acessar as funcionalidades do meu perfil.
 
-* Como um **Parceiro**,
-* Eu quero **criar, visualizar, editar e inativar vantagens com título, descrição, foto e custo em moedas**,
-* Para que **os alunos tenham ofertas atualizadas para resgate**.
+Como aluno, quero consultar meu extrato de moedas, para acompanhar meu saldo e histórico de transações.
 
-**US21: Cadastrar-se como Parceiro**
+Como aluno, quero trocar minhas moedas por vantagens, para usufruir dos benefícios oferecidos.
 
-* Como um **Parceiro (empresa)**,
-* Eu quero **me cadastrar informando CNPJ, e-mail e dados de contato para posterior aprovação**,
-* Para que **eu possa oferecer vantagens aos alunos no sistema**.
+Épico 3: Distribuição de Moedas (Professor)
 
-### Épico 2: Jornada do Aluno
+Como professor, quero receber automaticamente 1.000 moedas a cada semestre, para reconhecer meus alunos continuamente.
 
-**US05: Cadastrar-se no Sistema (Aluno)**
+Como professor, quero enviar moedas a um aluno informando o motivo, para reconhecer seu bom desempenho.
 
-* Como um **Aluno**,
-* Eu quero **me cadastrar informando nome, e-mail, CPF, RG, endereço, instituição (seleção em lista pré-cadastrada) e curso**,
-* Para que **eu possa participar do sistema de mérito**.
+Como professor, quero consultar meu extrato de moedas, para acompanhar meu saldo e transações.
 
-**US06: Realizar Login no Sistema (Usuário)**
+Como professor, quero visualizar a instituição e o departamento aos quais estou vinculado, para confirmar meu vínculo.
 
-* Como um **Usuário (Aluno, Professor ou Parceiro)**,
-* Eu quero **fazer login usando meu e-mail e senha**,
-* Para que **eu acesse as funcionalidades correspondentes ao meu perfil**.
+Épico 4: Processos e Notificações
 
-**US07: Consultar Meus Extratos (Aluno)**
+Como sistema, quero enviar um e-mail ao aluno ao receber moedas, para notificá-lo sobre o reconhecimento.
 
-* Como um **Aluno**,
-* Eu quero **visualizar meu saldo de moedas e o histórico de recebimentos e resgates**,
-* Para que **eu acompanhe minhas transações e planeje novos resgates**.
+Como sistema, quero enviar um e-mail com o cupom e o código de troca, para que o aluno utilize o benefício presencialmente.
 
-**US08: Resgatar Vantagem (Aluno)**
+Como sistema, quero enviar um e-mail ao parceiro com os dados do resgate, para que ele valide a troca.
 
-* Como um **Aluno**,
-* Eu quero **selecionar uma vantagem do catálogo e concluir o resgate com débito do meu saldo e geração de um código único com validade**,
-* Para que **eu possa usufruir do benefício e comprovar a troca presencialmente**.
+Como parceiro, quero validar o código do cupom, para confirmar o uso do benefício.
 
-### Épico 3: Distribuição de Moedas (Professor)
+Épico 5: Segurança e Conformidade
 
-**US09: Receber Crédito Semestral Acumulável**
+Como professor, quero ativar minha conta a partir do pré-cadastro, para acessar o sistema e distribuir moedas.
 
-* Como um **Professor**,
-* Eu quero **receber automaticamente 1.000 moedas a cada semestre, somando ao meu saldo caso não as utilize integralmente**,
-* Para que **eu disponha de recursos contínuos para reconhecer meus alunos**.
+Como usuário, quero recuperar minha senha por e-mail, para voltar a acessar o sistema com segurança.
 
-**US10: Enviar Moedas para Aluno (com motivo obrigatório)**
+Como sistema, quero impedir transações sem saldo, para manter a contabilidade correta.
 
-* Como um **Professor**,
-* Eu quero **enviar moedas a um aluno da minha instituição indicando a quantidade e um motivo obrigatório**,
-* Para que **eu reconheça bom comportamento, participação e desempenho acadêmico**.
+Como sistema, quero restringir que professores premiem apenas alunos da mesma instituição, para evitar operações indevidas.
 
-**US11: Consultar Meu Extrato (Professor)**
-
-* Como um **Professor**,
-* Eu quero **visualizar meu saldo e o histórico de créditos semestrais e envios realizados**,
-* Para que **eu acompanhe e audite a distribuição de moedas**.
-
-**US22: Visualizar Vínculo Institucional (Professor)**
-
-* Como um **Professor**,
-* Eu quero **ver de forma explícita a instituição e o departamento aos quais estou vinculado**,
-* Para que **eu confirme meu vínculo e atue dentro do escopo correto**.
-
-### Épico 4: Processos e Notificações (Funcionalidades do Sistema)
-
-**US12: Notificar Aluno sobre Recebimento de Moedas**
-
-* Como o **Sistema**,
-* Eu quero **enviar e-mail ao aluno sempre que ele receber moedas (com remetente, quantidade e motivo)**,
-* Para que **ele seja informado do reconhecimento**.
-
-**US13: Enviar Cupom de Resgate ao Aluno**
-
-* Como o **Sistema**,
-* Eu quero **enviar ao aluno um e-mail com o cupom do resgate (código único e validade)**,
-* Para que **ele utilize o benefício na troca presencial**.
-
-**US14: Notificar Parceiro sobre Resgate**
-
-* Como o **Sistema**,
-* Eu quero **enviar ao parceiro um e-mail com o mesmo código do cupom e dados do resgate**,
-* Para que **ele possa conferir e registrar a utilização**.
-
-**US15: Validar Código de Cupom (Parceiro)**
-
-* Como um **Parceiro**,
-* Eu quero **informar o código do cupom e visualizar seu status (válido, expirado ou utilizado)**,
-* Para que **eu confirme a troca no atendimento**.
-
-### Épico 5: Segurança, Autenticação e Conformidade
-
-**US16: Ativar Conta a partir de Pré-Cadastro (Professor)**
-
-* Como um **Professor**,
-* Eu quero **ativar minha conta a partir do pré-cadastro recebido, definindo minha senha**,
-* Para que **eu possa acessar o sistema e distribuir moedas**.
-
-**US17: Recuperar Acesso (Esqueci Minha Senha)**
-
-* Como um **Usuário**,
-* Eu quero **recuperar minha senha por e-mail**,
-* Para que **eu volte a acessar o sistema com segurança**.
-
-**US18: Impedir Transações sem Saldo**
-
-* Como o **Sistema**,
-* Eu quero **bloquear envios e resgates quando o saldo for insuficiente**,
-* Para que **a contabilidade de moedas permaneça consistente**.
-
-**US19: Restringir Escopo por Instituição**
-
-* Como o **Sistema**,
-* Eu quero **restringir que professores encontrem e premiem apenas alunos da própria instituição**,
-* Para que **se evitem operações cruzadas indevidas**.
-
-**US20: Proteger Dados Pessoais (LGPD)**
-
-* Como o **Sistema**,
-* Eu quero **armazenar e transmitir dados de forma segura e aplicar máscaras a documentos**,
-* Para que **o tratamento esteja em conformidade com a LGPD**.
-
----
+Como sistema, quero proteger os dados pessoais dos usuários, para estar em conformidade com a LGPD.
 
 # Diagrama de Casos de Uso
 <img width="875" height="1937" alt="CasosUso drawio" src="https://github.com/user-attachments/assets/c24627f0-ead9-4036-802e-a334fcc87e7e" />
