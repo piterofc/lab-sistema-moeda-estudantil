@@ -84,7 +84,8 @@ Como sistema, quero proteger os dados pessoais dos usuários, para estar em conf
 
 # Diagrama de Componentes
 
-<img width="850" height="1940" alt="diagrama_componentes drawio" src="https://github.com/user-attachments/assets/06efbaee-2ca4-4512-a655-4803618dc1fe" />
+<img width="961" height="1151" alt="diagrama_componentes drawio (1)" src="https://github.com/user-attachments/assets/cb8c5e41-df4e-4760-ae87-9c53e3768f1f" />
+
 
 
 ---
@@ -98,7 +99,6 @@ Como sistema, quero proteger os dados pessoais dos usuários, para estar em conf
 
 # Diagrama de Implantação
 
-<img width="1191" height="808" alt="diagramaImplantacao-Página-3 drawio" src="https://github.com/user-attachments/assets/db10934b-7740-4cee-a7be-9d2148d0fe50" />
 
-
+<img width="951" height="901" alt="diagramaImplantacao drawio" src="https://github.com/user-attachments/assets/88335787-70ac-42e9-807c-289628c3b167" />
 
