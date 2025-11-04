@@ -76,8 +76,7 @@ Como sistema, quero proteger os dados pessoais dos usuários, para estar em conf
 ---
 
 # Diagrama de Classes
-
-<img width="850" height="1942" alt="diagrama_classes" src="https://github.com/user-attachments/assets/916c30ad-f735-464d-8a11-db25c9371f23" />
+<img width="1572" height="881" alt="Class Diagram22222" src="https://github.com/user-attachments/assets/d99e8ce6-04c0-4f9e-b1ec-106d95977fea" />
 
 
 ---
