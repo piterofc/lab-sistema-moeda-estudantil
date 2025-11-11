@@ -2,6 +2,9 @@ package com.universidade.moedaestudantil.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,9 +34,11 @@ public class InstituicaoEnsino {
     private String email;
     
     @OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Aluno> alunos = new ArrayList<>();
     
     @OneToMany(mappedBy = "instituicao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Professor> professores = new ArrayList<>();
     
     // Construtores

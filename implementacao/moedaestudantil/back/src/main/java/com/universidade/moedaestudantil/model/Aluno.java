@@ -1,5 +1,7 @@
 package com.universidade.moedaestudantil.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -49,6 +51,7 @@ public class Aluno {
     @NotNull(message = "Instituição de ensino é obrigatória")
     @ManyToOne
     @JoinColumn(name = "instituicao_id", nullable = false)
+    @JsonBackReference
     private InstituicaoEnsino instituicao;
 
     public Long getId() {

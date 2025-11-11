@@ -1,6 +1,9 @@
 package com.universidade.moedaestudantil.model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +33,7 @@ public class EmpresaParceira {
     private String senha;
     
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Vantagem> vantagens;
 
     public Long getId() {
