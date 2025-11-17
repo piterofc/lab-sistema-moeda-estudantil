@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.universidade.moedaestudantil.model.Usuario;
+import com.universidade.moedaestudantil.model.Aluno;
+import com.universidade.moedaestudantil.model.EmpresaParceira;
 import com.universidade.moedaestudantil.repository.UsuarioRepository;
 
 import jakarta.servlet.FilterChain;
@@ -25,16 +27,16 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     TokenService tokenService;
     @Autowired
-    UserRepository userRepository;
+    UsuarioRepository userRepository;
 
     // CACHE SIMPLES: email -> CachedUser
     private static final long USER_CACHE_TTL_MS = TimeUnit.SECONDS.toMillis(60);
     private final ConcurrentHashMap<String, CachedUser> userCache = new ConcurrentHashMap<>();
 
     private static class CachedUser {
-        final User user;
+        final Usuario user;
         final long createdAt;
-        CachedUser(User u) {
+        CachedUser(Usuario u) {
             this.user = u;
             this.createdAt = System.currentTimeMillis();
         }
@@ -49,15 +51,12 @@ public class SecurityFilter extends OncePerRequestFilter {
         var login = tokenService.validateToken(token);
 
         if(login != null){
-            /*
-            User user = userRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("User Not Found"));
-            var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase()));
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            */
             try {
-                User user = getCachedUser(login);
-                var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase()));
+                Usuario user = getCachedUser(login);
+                String role = "USER";
+                if (user instanceof Aluno) role = "ALUNO";
+                else if (user instanceof EmpresaParceira) role = "EMPRESA";
+                var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (RuntimeException e) {
@@ -74,7 +73,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         return authHeader.replace("Bearer ", "");
     }
 
-    private User getCachedUser(String email) {
+    private Usuario getCachedUser(String email) {
         CachedUser cu = userCache.get(email);
         if (cu != null && !cu.expired()) {
             return cu.user;

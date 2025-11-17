@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.universidade.moedaestudantil.model.Usuario;
+import com.universidade.moedaestudantil.model.Aluno;
+import com.universidade.moedaestudantil.model.EmpresaParceira;
 import com.universidade.moedaestudantil.repository.UsuarioRepository;
 
 @Component
@@ -20,13 +22,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      User user = this.repository.findByEmail(username)
+      Usuario user = this.repository.findByEmail(username)
           .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
-       
-          return new org.springframework.security.core.userdetails.User(
-              user.getEmail(),
-              user.getPassword(),
-              Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase()))
-          );
+
+      String role = "USER";
+      if (user instanceof Aluno) role = "ALUNO";
+      else if (user instanceof EmpresaParceira) role = "EMPRESA";
+
+      return new org.springframework.security.core.userdetails.User(
+          user.getEmail(),
+          user.getSenha(),
+          Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role))
+      );
     }
 }
