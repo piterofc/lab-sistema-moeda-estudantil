@@ -18,13 +18,9 @@
         </nav>
 
         <div class="form-container">
-            <div class="form-group">
-                <label for="aluno">Selecione o Aluno *</label>
-                <select id="aluno" name="aluno" required>
-                    <option value="">Selecione um aluno...</option>
-                </select>
-            </div>
-            <button id="consultarBtn" class="btn btn-primary">Consultar Extrato</button>
+            <!-- Não há seleção de aluno: o extrato sempre é do usuário autenticado -->
+            <input type="hidden" id="hidden-aluno-id" name="aluno" />
+            <!--<div id="current-aluno-placeholder" class="form-group"></div>-->
         </div>
 
         <div id="loading" class="loading">
@@ -49,6 +45,7 @@
     </div>
 
     <script src="api.js"></script>
+    <script src="auth.js"></script>
     <script src="extrato-aluno.js"></script>
 </body>
 </html>

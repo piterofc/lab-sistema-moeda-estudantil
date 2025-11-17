@@ -20,11 +20,10 @@
         <div class="form-container">
             <form id="envioForm" class="form">
                 <div class="form-group">
-                    <label for="professor">Professor *</label>
-                    <select id="professor" name="professor" required>
-                        <option value="">Selecione um professor...</option>
-                    </select>
-                    <small class="help-text">Selecione o professor que irá enviar as moedas</small>
+                    <!-- O professor sempre é o usuário autenticado; select removido -->
+                    <input type="hidden" id="hidden-professor-id" name="professor" />
+                    <div id="current-professor-placeholder" class="current-professor" ></div>
+                    <small class="help-text">O envio será feito pelo professor autenticado</small>
                 </div>
 
                 <div id="professor-info" class="info-box" style="display: none; margin-bottom: 20px;">
@@ -64,6 +63,7 @@
     </div>
 
     <script src="api.js"></script>
+    <script src="auth.js"></script>
     <script src="envio-moedas.js"></script>
 </body>
 </html>

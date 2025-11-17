@@ -19,13 +19,9 @@
 
         <div class="form-container">
             <form id="resgateForm" class="form">
-                <div class="form-group">
-                    <label for="aluno">Aluno *</label>
-                    <select id="aluno" name="aluno" required>
-                        <option value="">Selecione um aluno...</option>
-                    </select>
-                    <small class="help-text">Selecione o aluno que irá resgatar a vantagem</small>
-                </div>
+                <!-- O aluno sempre é o usuário autenticado; nenhum select é exibido -->
+                <input type="hidden" id="hidden-aluno-id" name="aluno" />
+                <div id="current-aluno-placeholder"></div>
 
                 <div class="form-group">
                     <label for="vantagem">Vantagem *</label>
@@ -54,6 +50,7 @@
     </div>
 
     <script src="api.js"></script>
+    <script src="auth.js"></script>
     <script src="resgate-vantagem.js"></script>
 </body>
 </html>

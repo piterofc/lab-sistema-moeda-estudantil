@@ -54,4 +54,21 @@ public class TokenService {
         return LocalDateTime.now().plusHours(2)
                 .toInstant(ZoneOffset.of("-03:00"));
     }
+
+    public String getUserEmailFromToken(String token) {
+        System.out.println("Decoding token to get user ID: " + token);
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
+
+            String subject = JWT.require(algorithm)
+                    .withIssuer("login-auth-api")
+                    .build()
+                    .verify(token)
+                    .getSubject();
+
+            return subject;
+        } catch (JWTVerificationException exception) {
+            return null;
+        }
+    }
 }
