@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Sistema de Moeda Estudantil</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Cadastro</h1>
+            <p>Escolha o tipo de cadastro</p>
+        </header>
+
+        <nav class="breadcrumb">
+            <a href="login.html">← Voltar ao Login</a>
+        </nav>
+
+        <div class="info-cards mt-30">
+            <div class="card card-clickable" onclick="window.location.href='cadastro-aluno.html'">
+                <h3>👨‍🎓 Sou Aluno</h3>
+                <p>Cadastre-se como aluno para receber moedas e resgatar vantagens.</p>
+                <button class="btn btn-primary card-button">Cadastrar como Aluno</button>
+            </div>
+
+            <div class="card card-clickable" onclick="window.location.href='cadastro-empresa.html'">
+                <h3>🏢 Sou Empresa Parceira</h3>
+                <p>Cadastre sua empresa para oferecer vantagens aos alunos.</p>
+                <button class="btn btn-success card-button">Cadastrar como Empresa</button>
+            </div>
+        </div>
+
+        <div class="info-box mt-30">
+            <strong>⚠️ Atenção:</strong> Professores são pré-cadastrados pela instituição de ensino. 
+            Se você é professor, entre em contato com sua instituição para obter suas credenciais de acesso.
+        </div>
+    </div>
+</body>
+</html>
+

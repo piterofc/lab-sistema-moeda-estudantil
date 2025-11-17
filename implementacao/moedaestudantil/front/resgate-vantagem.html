@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resgatar Vantagem - Aluno</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎁 Resgatar Vantagem</h1>
+            <p>Resgate uma vantagem usando suas moedas estudantis</p>
+        </header>
+
+        <nav class="breadcrumb">
+            <a href="dashboard-aluno.html">← Voltar ao Dashboard</a>
+        </nav>
+
+        <div class="form-container">
+            <form id="resgateForm" class="form">
+                <div class="form-group">
+                    <label for="aluno">Aluno *</label>
+                    <select id="aluno" name="aluno" required>
+                        <option value="">Selecione um aluno...</option>
+                    </select>
+                    <small class="help-text">Selecione o aluno que irá resgatar a vantagem</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="vantagem">Vantagem *</label>
+                    <select id="vantagem" name="vantagem" required>
+                        <option value="">Selecione uma vantagem...</option>
+                    </select>
+                    <small class="help-text">A vantagem será resgatada e o custo será descontado do saldo do aluno</small>
+                </div>
+
+                <div id="vantagem-info" class="vantagem-info hidden">
+                    <div class="info-box">
+                        <strong>Descrição:</strong> <span id="vantagem-descricao"></span><br>
+                        <strong>Custo:</strong> <span id="vantagem-custo"></span> moedas<br>
+                        <strong>Empresa:</strong> <span id="vantagem-empresa"></span>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Resgatar Vantagem</button>
+                    <button type="reset" class="btn btn-secondary">Limpar</button>
+                </div>
+            </form>
+
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="api.js"></script>
+    <script src="resgate-vantagem.js"></script>
+</body>
+</html>
+

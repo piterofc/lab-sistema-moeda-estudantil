@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modo Desenvolvedor - Sistema de Moeda Estudantil</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dev-panel {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+        .dev-panel h2 {
+            color: #ffc107;
+            margin-bottom: 15px;
+        }
+        .dev-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.inactive {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔧 Modo Desenvolvedor</h1>
+            <p>Ative o modo desenvolvedor para testar todas as páginas sem precisar fazer login real</p>
+        </header>
+
+        <div id="status" class="status inactive">
+            <strong>Status:</strong> Modo Desenvolvedor DESATIVADO
+        </div>
+
+        <div class="dev-panel">
+            <h2>🎯 Ativar Modo Desenvolvedor</h2>
+            <p>Escolha o tipo de usuário que você quer simular:</p>
+            
+            <div class="dev-buttons">
+                <button onclick="ativarDevMode('ALUNO')" class="btn btn-primary">👨‍🎓 Como Aluno</button>
+                <button onclick="ativarDevMode('PROFESSOR')" class="btn btn-primary">👨‍🏫 Como Professor</button>
+                <button onclick="ativarDevMode('EMPRESA')" class="btn btn-primary">🏢 Como Empresa</button>
+            </div>
+
+            <div class="info-box">
+                <strong>ℹ️ Como usar:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>Clique em um dos botões acima para ativar o modo desenvolvedor</li>
+                    <li>Você terá acesso a todas as páginas do tipo escolhido</li>
+                    <li>O modo desenvolvedor funciona apenas localmente (localStorage)</li>
+                    <li>Não afeta o sistema real ou outros usuários</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="dev-panel">
+            <h2>🔄 Alternar Tipo de Usuário</h2>
+            <p>Se já estiver em modo desenvolvedor, você pode alternar entre tipos:</p>
+            
+            <div class="dev-buttons">
+                <button onclick="alternarTipo('ALUNO')" class="btn btn-secondary">👨‍🎓 Aluno</button>
+                <button onclick="alternarTipo('PROFESSOR')" class="btn btn-secondary">👨‍🏫 Professor</button>
+                <button onclick="alternarTipo('EMPRESA')" class="btn btn-secondary">🏢 Empresa</button>
+            </div>
+        </div>
+
+        <div class="dev-panel">
+            <h2>🚪 Navegação Rápida</h2>
+            <p>Após ativar, você pode acessar diretamente:</p>
+            
+            <div class="dev-buttons">
+                <a href="dashboard-aluno.html" class="btn btn-success">Dashboard Aluno</a>
+                <a href="dashboard-professor.html" class="btn btn-success">Dashboard Professor</a>
+                <a href="dashboard-empresa.html" class="btn btn-success">Dashboard Empresa</a>
+                <a href="envio-moedas.html" class="btn btn-secondary">Enviar Moedas</a>
+                <a href="extrato-aluno.html" class="btn btn-secondary">Extrato Aluno</a>
+                <a href="extrato-professor.html" class="btn btn-secondary">Extrato Professor</a>
+                <a href="resgate-vantagem.html" class="btn btn-secondary">Resgatar Vantagem</a>
+                <a href="listagem-vantagens.html" class="btn btn-secondary">Listar Vantagens</a>
+            </div>
+        </div>
+
+        <div class="dev-panel">
+            <h2>❌ Desativar Modo Desenvolvedor</h2>
+            <p class="mb-15">Para voltar ao modo normal:</p>
+            <button onclick="desativarDevMode()" class="btn btn-danger">Desativar Modo Desenvolvedor</button>
+        </div>
+
+        <div class="info-box">
+            <strong>ℹ️ Como Funciona o Modo Desenvolvedor:</strong>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li><strong>É independente do login real</strong> - funciona apenas no seu navegador (localStorage)</li>
+                <li><strong>Não precisa de banco de dados</strong> - você pode testar as páginas sem backend rodando</li>
+                <li><strong>Não apaga dados reais</strong> - quando você desativa, apenas limpa o localStorage do navegador</li>
+                <li><strong>Não interfere com login real</strong> - se você fizer login real depois, funciona normalmente</li>
+                <li><strong>Status inicial:</strong> Sempre começa desativado quando você abre a página pela primeira vez</li>
+            </ul>
+        </div>
+
+        <div class="info-box" style="background: #fff3cd; border-color: #ffc107;">
+            <strong>⚠️ Limitações:</strong>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li>O modo desenvolvedor <strong>não funciona com o backend</strong> - apenas visualiza as páginas</li>
+                <li>Para testar funcionalidades completas, use os dados de teste do banco (veja <code>back/dados-teste.sql</code>)</li>
+                <li>As credenciais de teste são:</li>
+                <ul style="margin: 5px 0; padding-left: 20px;">
+                    <li><strong>Aluno:</strong> <code>aluno@teste.com</code> / <code>senha123</code></li>
+                    <li><strong>Professor:</strong> CPF <code>11122233344</code> / <code>senha123</code></li>
+                    <li><strong>Empresa:</strong> <code>empresa@teste.com</code> / <code>senha123</code></li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Atualizar status ao carregar
+        atualizarStatus();
+
+        function atualizarStatus() {
+            const statusDiv = document.getElementById('status');
+            if (Auth.isDevMode()) {
+                const user = Auth.getUser();
+                statusDiv.className = 'status active';
+                statusDiv.innerHTML = `<strong>Status:</strong> Modo Desenvolvedor ATIVADO como <strong>${user.tipo}</strong> (${user.nome})`;
+            } else {
+                statusDiv.className = 'status inactive';
+                statusDiv.innerHTML = '<strong>Status:</strong> Modo Desenvolvedor DESATIVADO';
+            }
+        }
+
+        function ativarDevMode(tipo) {
+            Auth.enableDevMode(tipo);
+            atualizarStatus();
+            alert(`✅ Modo Desenvolvedor ativado como ${tipo}!\n\nAgora você pode acessar todas as páginas deste tipo.`);
+        }
+
+        function alternarTipo(tipo) {
+            if (Auth.isDevMode()) {
+                Auth.switchDevUserType(tipo);
+                atualizarStatus();
+                alert(`✅ Tipo alterado para ${tipo}!`);
+            } else {
+                alert('⚠️ Ative o modo desenvolvedor primeiro!');
+            }
+        }
+
+        function desativarDevMode() {
+            if (confirm('Tem certeza que deseja desativar o modo desenvolvedor?')) {
+                Auth.disableDevMode();
+                atualizarStatus();
+                alert('✅ Modo Desenvolvedor desativado!');
+            }
+        }
+    </script>
+</body>
+</html>
+

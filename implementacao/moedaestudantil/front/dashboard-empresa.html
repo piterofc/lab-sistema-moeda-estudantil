@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Empresa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-flex">
+                <div>
+                    <h1>🏢 Dashboard da Empresa</h1>
+                    <p id="welcome-message">Bem-vindo!</p>
+                </div>
+                <button onclick="Auth.logout()" class="btn btn-danger">Sair</button>
+            </div>
+        </header>
+
+        <div class="main-nav mt-30">
+            <div class="nav-section">
+                <h2>📝 Gerenciar Vantagens</h2>
+                <div class="nav-buttons">
+                    <a href="cadastro-vantagem.html" class="btn btn-primary">Cadastrar Nova Vantagem</a>
+                    <a href="listagem-vantagens.html" class="btn btn-secondary">Ver Todas as Vantagens</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="api.js"></script>
+    <script src="dashboard-empresa.js"></script>
+</body>
+</html>
+

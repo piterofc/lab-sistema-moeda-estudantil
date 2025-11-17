@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Professor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-flex">
+                <div>
+                    <h1>👨‍🏫 Dashboard do Professor</h1>
+                    <p id="welcome-message">Bem-vindo!</p>
+                </div>
+                <button onclick="Auth.logout()" class="btn btn-danger">Sair</button>
+            </div>
+        </header>
+
+        <div class="saldo-box hidden" id="saldo-box">
+            <h2>💰 Saldo Disponível</h2>
+            <div class="saldo-valor" id="saldo-valor">0.00 moedas</div>
+        </div>
+
+        <div class="main-nav mt-30">
+            <div class="nav-section">
+                <h2>💸 Ações</h2>
+                <div class="nav-buttons">
+                    <a href="envio-moedas.html" class="btn btn-primary">Enviar Moedas</a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h2>📊 Meus Dados</h2>
+                <div class="nav-buttons">
+                    <a href="extrato-professor.html" class="btn btn-secondary">Meu Extrato</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="api.js"></script>
+    <script src="dashboard-professor.js"></script>
+</body>
+</html>
+
