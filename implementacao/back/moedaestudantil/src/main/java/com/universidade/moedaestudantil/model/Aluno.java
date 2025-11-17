@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
 
 @Entity
+@DiscriminatorValue("ALUNO")
 @Table(name = "alunos")
 public class Aluno extends Usuario {
     @NotBlank(message = "CPF é obrigatório")

@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@DiscriminatorValue("EMPRESA")
 @Table(name = "empresas_parceiras")
 public class EmpresaParceira extends Usuario {
     @NotBlank(message = "CNPJ é obrigatório")
