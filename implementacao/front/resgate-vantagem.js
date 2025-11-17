@@ -1,10 +1,15 @@
 // Carregar dados ao inicializar
 document.addEventListener('DOMContentLoaded', async () => {
-    await Promise.all([
-        carregarAlunos(),
-        carregarVantagens()
-    ]);
-    
+    const currentUser = await auth.getCurrentUser() || null;
+
+    // Sempre carregar vantagens. Não existe seleção de aluno: o aluno é o usuário autenticado.
+    await carregarVantagens();
+    if (currentUser) {
+        await prepararAlunoAtual(currentUser);
+    } else {
+        showMessage('❌ Usuário não autenticado. Faça login para resgatar vantagens.', 'error');
+    }
+
     const form = document.getElementById('resgateForm');
     form.addEventListener('submit', handleSubmit);
     
@@ -14,30 +19,30 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Carregar lista de alunos
-async function carregarAlunos() {
-    const selectAluno = document.getElementById('aluno');
-    
-    try {
-        const alunos = await api.getAlunos();
-        
-        selectAluno.innerHTML = '<option value="">Selecione um aluno...</option>';
-        
-        if (alunos && alunos.length > 0) {
-            alunos.forEach(aluno => {
-                const option = document.createElement('option');
-                option.value = aluno.id;
-                option.textContent = `${aluno.nome} (Saldo: ${aluno.saldo || 0} moedas)`;
-                option.dataset.saldo = aluno.saldo || 0;
-                selectAluno.appendChild(option);
-            });
-        } else {
-            showMessage('ℹ️ Nenhum aluno cadastrado. <a href="cadastro-aluno.html">Cadastre um aluno primeiro</a>.', 'info');
-        }
-    } catch (error) {
-        console.error('Erro ao carregar alunos:', error);
-        const errorMsg = error.message || 'Erro desconhecido ao carregar alunos';
-        showMessage(`❌ ${errorMsg}`, 'error');
+// Não existe carregamento de lista de alunos no cliente: o aluno é sempre o usuário autenticado.
+
+
+// Prepara a interface quando o usuário atual é um aluno
+async function prepararAlunoAtual(user) {
+    let alunoDados = await api.getAluno(user.id);
+
+    // inserir um display legível com nome e saldo no placeholder
+    const placeholder = document.getElementById('current-aluno-placeholder');
+    if (placeholder) {
+        placeholder.innerHTML = `<p><strong>Aluno:</strong> ${user.nome} (${user.matricula || user.id}) — Saldo: ${alunoDados.saldo || 0} moedas</p>`;
     }
+
+    // garantir hidden input com id do aluno
+    let hidden = document.getElementById('hidden-aluno-id');
+    const form = document.getElementById('resgateForm');
+    if (!hidden && form) {
+        hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.id = 'hidden-aluno-id';
+        hidden.name = 'aluno';
+        form.appendChild(hidden);
+    }
+    if (hidden) hidden.value = user.id;
 }
 
 // Carregar lista de vantagens
@@ -47,9 +52,9 @@ async function carregarVantagens() {
     try {
         const vantagens = await api.getVantagens();
         
-        selectVantagem.innerHTML = '<option value="">Selecione uma vantagem...</option>';
-        
         if (vantagens && vantagens.length > 0) {
+            selectVantagem.innerHTML = '<option value="">Selecione uma vantagem...</option>';
+        
             vantagens.forEach(vantagem => {
                 const option = document.createElement('option');
                 option.value = vantagem.id;
@@ -60,7 +65,11 @@ async function carregarVantagens() {
                 selectVantagem.appendChild(option);
             });
         } else {
-            showMessage('ℹ️ Nenhuma vantagem disponível.', 'info');
+            selectVantagem.innerHTML = '<option value="">ℹ️ Nenhuma vantagem disponível.</option>';
+            selectVantagem.disabled = true;
+            // Desabilitar botão de submit também
+            const submitBtn = document.querySelector('#resgateForm button[type="submit"]');
+            if (submitBtn) submitBtn.disabled = true;
         }
     } catch (error) {
         console.error('Erro ao carregar vantagens:', error);
@@ -93,8 +102,14 @@ async function handleSubmit(event) {
     const formData = new FormData(form);
     
     // Validar campos
-    const alunoId = formData.get('aluno');
     const vantagemId = formData.get('vantagem');
+    let alunoId = formData.get('aluno') || document.getElementById('hidden-aluno-id')?.value;
+    const currentUser = (typeof auth !== 'undefined' && auth.getCurrentUser) ? auth.getCurrentUser() : null;
+
+    // Se o usuário autenticado for ALUNO, forçamos o uso do seu próprio ID (defesa em profundidade)
+    if (currentUser && currentUser.tipo === 'ALUNO') {
+        alunoId = currentUser.id;
+    }
     
     if (!alunoId) {
         showMessage('❌ Por favor, selecione um aluno.', 'error');
@@ -125,17 +140,13 @@ async function handleSubmit(event) {
         return;
     }
     
-    // Preparar transação de resgate
+    // Preparar transação de resgate (enviar IDs, não objetos)
     const transacao = {
         tipo: 'RESGATE',
         quantidade: vantagem.custo,
         motivo: `Resgate da vantagem: ${vantagem.descricao}`,
-        aluno: {
-            id: aluno.id
-        },
-        vantagem: {
-            id: vantagem.id
-        }
+        aluno: { id: alunoId },
+        vantagem: { id: vantagemId }
     };
     
     // Enviar requisição
@@ -146,9 +157,6 @@ async function handleSubmit(event) {
         showMessage(`✅ Vantagem resgatada com sucesso! Código do cupom: ${resultado.vantagem?.codigoCupom || 'Gerado'}. Um email será enviado com o código.`, 'success');
         form.reset();
         document.getElementById('vantagem-info').style.display = 'none';
-        
-        // Recarregar alunos para atualizar saldo
-        await carregarAlunos();
     } catch (error) {
         console.error('Erro ao resgatar vantagem:', error);
         const errorMsg = error.message || 'Erro desconhecido ao resgatar vantagem';

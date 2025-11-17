@@ -1,9 +1,79 @@
 // Carregar alunos ao inicializar
 document.addEventListener('DOMContentLoaded', async () => {
-    await carregarAlunos();
-    
-    const consultarBtn = document.getElementById('consultarBtn');
-    consultarBtn.addEventListener('click', consultarExtrato);
+    // Se o usuário atual for ALUNO, buscar extrato automaticamente
+    const currentUser = await auth.getCurrentUser() || null;
+
+    console.log('Usuário atual:', currentUser);
+
+    if (currentUser && currentUser.tipo === 'ALUNO') {
+        // esconder a seleção de aluno (não faz sentido escolher outro aluno
+        const selectWrapper = document.getElementById('aluno-select-wrapper');
+        if (selectWrapper) selectWrapper.style.display = 'none';
+
+        // preencher hidden input com o id do aluno (defesa em profundidade)
+        const hidden = document.getElementById('hidden-aluno-id');
+        if (hidden) hidden.value = currentUser.id;
+
+        // ocultar botão de consulta (pois carregaremos automaticamente)
+        const consultarBtn = document.getElementById('consultarBtn');
+        if (consultarBtn) consultarBtn.style.display = 'none';
+
+        try {
+            showLoading(true);
+            hideMessage();
+
+            const extrato = await api.getExtratoAluno(currentUser.id);
+
+            // Exibir saldo
+            document.getElementById('saldo-valor').textContent = `${extrato.saldo || 0} moedas`;
+
+            // Exibir transações
+            exibirTransacoes(extrato.transacoes || []);
+
+            // Mostrar container
+            document.getElementById('extrato-container').style.display = 'block';
+        } catch (error) {
+            console.error('Erro ao consultar extrato do usuário atual:', error);
+            const errorMsg = error.message || 'Erro desconhecido ao consultar extrato';
+            showMessage(`❌ ${errorMsg}`, 'error');
+            document.getElementById('extrato-container').style.display = 'none';
+        } finally {
+            showLoading(false);
+        }
+
+        return;
+    }
+
+    // Não existe seleção de aluno: sempre carregar o extrato do usuário autenticado
+    if (!currentUser) {
+        showMessage('❌ Usuário não autenticado. Faça login para ver seu extrato.', 'error');
+        return;
+    }
+
+    // preencher hidden input (caso exista) e placeholder
+    const hidden = document.getElementById('hidden-aluno-id');
+    if (hidden) hidden.value = currentUser.id;
+    const placeholder = document.getElementById('current-aluno-placeholder');
+    if (placeholder) placeholder.innerHTML = `<p><strong>Aluno:</strong> ${currentUser.nome} (${currentUser.matricula || currentUser.id})</p>`;
+
+    // carregar extrato do usuário autenticado
+    try {
+        showLoading(true);
+        hideMessage();
+
+        const extrato = await api.getExtratoAluno(currentUser.id);
+
+        document.getElementById('saldo-valor').textContent = `${extrato.saldo || 0} moedas`;
+        exibirTransacoes(extrato.transacoes || []);
+        document.getElementById('extrato-container').style.display = 'block';
+    } catch (error) {
+        console.error('Erro ao consultar extrato do usuário atual:', error);
+        const errorMsg = error.message || 'Erro desconhecido ao consultar extrato';
+        showMessage(`❌ ${errorMsg}`, 'error');
+        document.getElementById('extrato-container').style.display = 'none';
+    } finally {
+        showLoading(false);
+    }
 });
 
 // Carregar lista de alunos
@@ -33,9 +103,16 @@ async function carregarAlunos() {
 }
 
 // Consultar extrato
-async function consultarExtrato() {
-    const alunoId = document.getElementById('aluno').value;
-    
+async function consultarExtrato(passedAlunoId) {
+    const currentUser = (typeof auth !== 'undefined' && auth.getCurrentUser) ? auth.getCurrentUser() : null;
+
+    let alunoId = passedAlunoId || document.getElementById('aluno')?.value || document.getElementById('hidden-aluno-id')?.value;
+
+    // Defesa em profundidade: se o usuário autenticado for ALUNO, sempre usar seu próprio ID
+    if (currentUser && currentUser.tipo === 'ALUNO') {
+        alunoId = currentUser.id;
+    }
+
     if (!alunoId) {
         showMessage('❌ Por favor, selecione um aluno.', 'error');
         return;

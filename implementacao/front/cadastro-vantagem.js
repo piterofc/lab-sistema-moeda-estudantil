@@ -1,7 +1,11 @@
 // Carregar empresas ao carregar a página
 document.addEventListener('DOMContentLoaded', async () => {
-    await carregarEmpresas();
-    
+    // Se o usuário atual for ALUNO, buscar extrato automaticamente
+    const currentUser = await auth.getCurrentUser() || null;
+
+    const hidden = document.getElementById('hidden-empresa-id');
+    if (hidden) hidden.value = currentUser.id;
+
     const form = document.getElementById('vantagemForm');
     form.addEventListener('submit', handleSubmit);
 });

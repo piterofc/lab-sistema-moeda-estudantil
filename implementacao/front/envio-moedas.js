@@ -1,43 +1,36 @@
 // Carregar dados ao inicializar
 document.addEventListener('DOMContentLoaded', async () => {
-    await Promise.all([
-        carregarProfessores(),
-        carregarAlunos()
-    ]);
-    
+    // carregar apenas alunos; o professor é o usuário autenticado
+    await carregarAlunos();
+
+    const currentUser = (typeof auth !== 'undefined' && auth.getCurrentUser) ? await auth.getCurrentUser() : null;
+    if (currentUser) {
+        await prepararProfessorAtual(currentUser);
+    } else {
+        showMessage('❌ Usuário não autenticado. Faça login para enviar moedas.', 'error');
+    }
+
     const form = document.getElementById('envioForm');
     form.addEventListener('submit', handleSubmit);
-    
-    // Atualizar saldo do professor ao selecionar
-    const professorSelect = document.getElementById('professor');
-    professorSelect.addEventListener('change', atualizarSaldoProfessor);
 });
 
-// Carregar lista de professores
-async function carregarProfessores() {
-    const selectProfessor = document.getElementById('professor');
-    
-    try {
-        const professores = await api.getProfessores();
-        
-        selectProfessor.innerHTML = '<option value="">Selecione um professor...</option>';
-        
-        if (professores && professores.length > 0) {
-            professores.forEach(professor => {
-                const option = document.createElement('option');
-                option.value = professor.id;
-                option.textContent = `${professor.nome} (Saldo: ${professor.saldo || 0} moedas)`;
-                option.dataset.saldo = professor.saldo || 0;
-                selectProfessor.appendChild(option);
-            });
-        } else {
-            showMessage('ℹ️ Nenhum professor cadastrado. Os professores devem ser pré-cadastrados no sistema.', 'info');
-        }
-    } catch (error) {
-        console.error('Erro ao carregar professores:', error);
-        const errorMsg = error.message || 'Erro desconhecido ao carregar professores';
-        showMessage(`❌ ${errorMsg}`, 'error');
-    }
+// Não carregamos lista de professores no cliente: o professor é sempre o usuário autenticado
+
+// Prepara a interface com informações do professor autenticado
+async function prepararProfessorAtual(user) {
+    const placeholder = document.getElementById('current-professor-placeholder');
+    if (placeholder) placeholder.innerHTML = `<p><strong>Professor:</strong> ${user.nome} (${user.matricula || user.id})</p>`;
+
+    const hidden = document.getElementById('hidden-professor-id');
+    if (hidden) hidden.value = user.id;
+
+    let professorDados = await api.getProfessor(user.id);
+
+    // atualizar saldo exibido (se o usuário trouxer saldo no objeto)
+    const saldoSpan = document.getElementById('professor-saldo');
+    if (saldoSpan) saldoSpan.textContent = professorDados.saldo || '0';
+    const infoDiv = document.getElementById('professor-info');
+    if (infoDiv && saldoSpan) infoDiv.style.display = 'block';
 }
 
 // Carregar lista de alunos
@@ -66,19 +59,7 @@ async function carregarAlunos() {
     }
 }
 
-// Atualizar saldo do professor selecionado
-function atualizarSaldoProfessor() {
-    const selectProfessor = document.getElementById('professor');
-    const selectedOption = selectProfessor.options[selectProfessor.selectedIndex];
-    const infoDiv = document.getElementById('professor-info');
-    
-    if (selectedOption.value) {
-        document.getElementById('professor-saldo').textContent = selectedOption.dataset.saldo || '0';
-        infoDiv.style.display = 'block';
-    } else {
-        infoDiv.style.display = 'none';
-    }
-}
+// Não há seleção de professor: atualização de saldo é feita via prepararProfessorAtual
 
 // Manipular envio do formulário
 async function handleSubmit(event) {
@@ -88,16 +69,17 @@ async function handleSubmit(event) {
     const formData = new FormData(form);
     
     // Validar campos
-    const professorId = formData.get('professor');
-    const alunoId = formData.get('aluno');
+    let alunoId = formData.get('aluno');
+    const currentUser = (typeof auth !== 'undefined' && auth.getCurrentUser) ? await auth.getCurrentUser() : null;
+    const professorId = currentUser ? currentUser.id : (formData.get('professor') || document.getElementById('hidden-professor-id')?.value);
     const quantidade = parseFloat(formData.get('quantidade'));
     const motivo = formData.get('motivo').trim();
     
     if (!professorId) {
-        showMessage('❌ Por favor, selecione um professor.', 'error');
+        showMessage('❌ Usuário não autenticado como professor.', 'error');
         return;
     }
-    
+
     if (!alunoId) {
         showMessage('❌ Por favor, selecione um aluno.', 'error');
         return;
@@ -126,25 +108,23 @@ async function handleSubmit(event) {
         return;
     }
     
-    // Verificar saldo do professor
+    // Verificar saldo do professor (fazer fetch do professor atual para dados confiáveis)
     if (professor.saldo < quantidade) {
         showMessage(`❌ Saldo insuficiente! Você possui ${professor.saldo} moedas, mas precisa de ${quantidade} moedas.`, 'error');
         return;
     }
-    
-    // Preparar transação de envio
+
+    // Preparar transação de envio (enviar IDs, não objetos)
     const transacao = {
         tipo: 'ENVIO',
         quantidade: quantidade,
         motivo: motivo,
-        professor: {
-            id: professor.id
-        },
-        aluno: {
-            id: aluno.id
-        }
+        professor: { id: professor.id },
+        aluno: { id: aluno.id }
     };
-    
+
+    console.log(transacao);
+
     // Enviar requisição
     try {
         showLoading(true);
@@ -153,9 +133,6 @@ async function handleSubmit(event) {
         showMessage(`✅ Moedas enviadas com sucesso! O aluno ${aluno.nome} recebeu ${quantidade} moedas. Um email de notificação será enviado ao aluno.`, 'success');
         form.reset();
         document.getElementById('professor-info').style.display = 'none';
-        
-        // Recarregar professores para atualizar saldo
-        await carregarProfessores();
     } catch (error) {
         console.error('Erro ao enviar moedas:', error);
         const errorMsg = error.message || 'Erro desconhecido ao enviar moedas';

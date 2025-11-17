@@ -1,70 +1,41 @@
-// Carregar professores ao inicializar
+// Carregar o extrato do professor autenticado ao inicializar
 document.addEventListener('DOMContentLoaded', async () => {
-    await carregarProfessores();
-    
-    const consultarBtn = document.getElementById('consultarBtn');
-    consultarBtn.addEventListener('click', consultarExtrato);
-});
+    const currentUser = await auth.getCurrentUser() || null;
 
-// Carregar lista de professores
-async function carregarProfessores() {
-    const selectProfessor = document.getElementById('professor');
-    
-    try {
-        const professores = await api.getProfessores();
-        
-        selectProfessor.innerHTML = '<option value="">Selecione um professor...</option>';
-        
-        if (professores && professores.length > 0) {
-            professores.forEach(professor => {
-                const option = document.createElement('option');
-                option.value = professor.id;
-                option.textContent = `${professor.nome} (${professor.departamento})`;
-                selectProfessor.appendChild(option);
-            });
-        } else {
-            showMessage('ℹ️ Nenhum professor cadastrado. Os professores devem ser pré-cadastrados no sistema.', 'info');
-        }
-    } catch (error) {
-        console.error('Erro ao carregar professores:', error);
-        const errorMsg = error.message || 'Erro desconhecido ao carregar professores';
-        showMessage(`❌ ${errorMsg}`, 'error');
-    }
-}
-
-// Consultar extrato
-async function consultarExtrato() {
-    const professorId = document.getElementById('professor').value;
-    
-    if (!professorId) {
-        showMessage('❌ Por favor, selecione um professor.', 'error');
+    if (!currentUser) {
+        showMessage('❌ Usuário não autenticado. Faça login para ver seu extrato.', 'error');
         return;
     }
-    
+
+    // preencher hidden input (caso exista) e placeholder
+    const hidden = document.getElementById('hidden-professor-id');
+    if (hidden) hidden.value = currentUser.id;
+    const placeholder = document.getElementById('current-professor-placeholder');
+    if (placeholder) placeholder.innerHTML = `<p><strong>Professor:</strong> ${currentUser.nome} (${currentUser.matricula || currentUser.id})</p>`;
+
     try {
         showLoading(true);
         hideMessage();
-        
-        const extrato = await api.getExtratoProfessor(professorId);
-        
+
+        const extrato = await api.getExtratoProfessor(currentUser.id);
+
         // Exibir saldo
         document.getElementById('saldo-valor').textContent = `${extrato.saldo || 0} moedas`;
-        
+
         // Exibir transações
         exibirTransacoes(extrato.transacoes || []);
-        
+
         // Mostrar container
         document.getElementById('extrato-container').style.display = 'block';
-        
     } catch (error) {
-        console.error('Erro ao consultar extrato:', error);
+        console.error('Erro ao consultar extrato do professor atual:', error);
         const errorMsg = error.message || 'Erro desconhecido ao consultar extrato';
         showMessage(`❌ ${errorMsg}`, 'error');
         document.getElementById('extrato-container').style.display = 'none';
     } finally {
         showLoading(false);
     }
-}
+});
 
 // Exibir transações
 function exibirTransacoes(transacoes) {

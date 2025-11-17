@@ -52,7 +52,7 @@ public class AuthController {
         else if (user instanceof EmpresaParceira) tipo = "EMPRESA";
         else if (user instanceof Professor) tipo = "PROFESSOR";
 
-        return ResponseEntity.ok(new AuthResponse(token, tipo, user.getNome(), user.getEmail()));
+        return ResponseEntity.ok(new AuthResponse(token, user.getId(), tipo, user.getNome(), user.getEmail()));
     }
 
     @PostMapping("/register")
@@ -76,7 +76,7 @@ public class AuthController {
                 EmpresaParceira saved = empresaService.save(empresa);
 
                 String token = tokenService.generateToken(empresa);
-                return ResponseEntity.ok(new AuthResponse(token, "EMPRESA", saved.getNome(), saved.getEmail()));
+                return ResponseEntity.ok(new AuthResponse(token, null, "EMPRESA", saved.getNome(), saved.getEmail()));
             } else if ("ALUNO".equals(tipo)) {
                 System.out.println("Creating Aluno user");
 
@@ -96,7 +96,7 @@ public class AuthController {
                 Aluno saved = alunoService.save(aluno);
 
                 String token = tokenService.generateToken(aluno);
-                return ResponseEntity.ok(new AuthResponse(token, "ALUNO", saved.getNome(), saved.getEmail()));
+                return ResponseEntity.ok(new AuthResponse(token, null, "ALUNO", saved.getNome(), saved.getEmail()));
             } else if ("PROFESSOR".equals(tipo)) {
                 System.out.println("Creating Professor user");
 
@@ -114,7 +114,7 @@ public class AuthController {
                 Professor savedProf = professorService.save(professor);
 
                 String token = tokenService.generateToken(professor);
-                return ResponseEntity.ok(new AuthResponse(token, "PROFESSOR", savedProf.getNome(), savedProf.getEmail()));
+                return ResponseEntity.ok(new AuthResponse(token, null, "PROFESSOR", savedProf.getNome(), savedProf.getEmail()));
             } else {
                 return ResponseEntity.badRequest().body(new ErrorResponse("Tipo inválido. Use 'ALUNO', 'EMPRESA' ou 'PROFESSOR'"));
             }
@@ -122,6 +122,31 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Erro ao registrar usuário"));
+        }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+        try {
+            System.out.println("Auth Header: " + authHeader);
+            String token = authHeader.replace("Bearer ", "");
+            String userEmail = tokenService.getUserEmailFromToken(token);
+            Long userId = usuarioRepository.findByEmail(userEmail)
+                    .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"))
+                    .getId();
+            Optional<Usuario> optUser = usuarioRepository.findById(userId);
+            if (optUser.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Usuário não encontrado"));
+            }
+            Usuario user = optUser.get();
+            String tipo = "USER";
+            if (user instanceof Aluno) tipo = "ALUNO";
+            else if (user instanceof EmpresaParceira) tipo = "EMPRESA";
+            else if (user instanceof Professor) tipo = "PROFESSOR";
+
+            return ResponseEntity.ok(new AuthResponse(token, userId, tipo, user.getNome(), user.getEmail()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Token inválido"));
         }
     }
 
@@ -176,13 +201,15 @@ public class AuthController {
 
     public static class AuthResponse {
         private String token;
+        private Long id;
         private String tipo;
         private String nome;
         private String email;
-        public AuthResponse(String token, String tipo, String nome, String email) {
-            this.token = token; this.tipo = tipo; this.nome = nome; this.email = email;
+        public AuthResponse(String token, Long id, String tipo, String nome, String email) {
+            this.token = token; this.id = id; this.tipo = tipo; this.nome = nome; this.email = email;
         }
         public String getToken() { return token; }
+        public Long getId() { return id; }
         public String getTipo() { return tipo; }
         public String getNome() { return nome; }
         public String getEmail() { return email; }
