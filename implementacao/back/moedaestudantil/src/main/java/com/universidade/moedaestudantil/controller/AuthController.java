@@ -47,10 +47,10 @@ public class AuthController {
         }
 
         String token = tokenService.generateToken(user);
-    String tipo = "USER";
-    if (user instanceof Aluno) tipo = "ALUNO";
-    else if (user instanceof EmpresaParceira) tipo = "EMPRESA";
-    else if (user instanceof Professor) tipo = "PROFESSOR";
+        String tipo = "USER";
+        if (user instanceof Aluno) tipo = "ALUNO";
+        else if (user instanceof EmpresaParceira) tipo = "EMPRESA";
+        else if (user instanceof Professor) tipo = "PROFESSOR";
 
         return ResponseEntity.ok(new AuthResponse(token, tipo, user.getNome(), user.getEmail()));
     }
@@ -66,15 +66,20 @@ public class AuthController {
             }
 
             if ("EMPRESA".equals(tipo)) {
+                System.out.println("Creating EmpresaParceira user");
+
                 EmpresaParceira empresa = new EmpresaParceira();
                 empresa.setNome(req.getNome());
                 empresa.setEmail(req.getEmail());
                 empresa.setCnpj(req.getCnpj());
                 empresa.setSenha(passwordEncoder.encode(req.getSenha()));
                 EmpresaParceira saved = empresaService.save(empresa);
-                return ResponseEntity.created(URI.create("/api/empresas/" + saved.getId())).body(saved);
+
+                String token = tokenService.generateToken(empresa);
+                return ResponseEntity.ok(new AuthResponse(token, "EMPRESA", saved.getNome(), saved.getEmail()));
             } else if ("ALUNO".equals(tipo)) {
-                // Campos obrigatórios para aluno (validações serão aplicadas pelo service/entidade)
+                System.out.println("Creating Aluno user");
+
                 Aluno aluno = new Aluno();
                 aluno.setNome(req.getNome());
                 aluno.setEmail(req.getEmail());
@@ -89,8 +94,12 @@ public class AuthController {
                     aluno.setInstituicao(instituicaoService.findById(req.getInstituicaoId()).get());
                 }
                 Aluno saved = alunoService.save(aluno);
-                return ResponseEntity.created(URI.create("/api/alunos/" + saved.getId())).body(saved);
+
+                String token = tokenService.generateToken(aluno);
+                return ResponseEntity.ok(new AuthResponse(token, "ALUNO", saved.getNome(), saved.getEmail()));
             } else if ("PROFESSOR".equals(tipo)) {
+                System.out.println("Creating Professor user");
+
                 Professor professor = new Professor();
                 professor.setNome(req.getNome());
                 professor.setEmail(req.getEmail());
@@ -103,7 +112,9 @@ public class AuthController {
                     professor.setInstituicao(instituicaoService.findById(req.getInstituicaoId()).get());
                 }
                 Professor savedProf = professorService.save(professor);
-                return ResponseEntity.created(URI.create("/api/professores/" + savedProf.getId())).body(savedProf);
+
+                String token = tokenService.generateToken(professor);
+                return ResponseEntity.ok(new AuthResponse(token, "PROFESSOR", savedProf.getNome(), savedProf.getEmail()));
             } else {
                 return ResponseEntity.badRequest().body(new ErrorResponse("Tipo inválido. Use 'ALUNO', 'EMPRESA' ou 'PROFESSOR'"));
             }
@@ -135,9 +146,9 @@ public class AuthController {
         private String cpf;
         private String rg;
         private String endereco;
-    private String curso;
-    private String departamento;
-    private Long instituicaoId;
+        private String curso;
+        private String departamento;
+        private Long instituicaoId;
 
         public String getTipo() { return tipo; }
         public void setTipo(String tipo) { this.tipo = tipo; }
