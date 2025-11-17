@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Empresa Parceira</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏢 Cadastro de Empresa Parceira</h1>
+            <p>Cadastre sua empresa para oferecer vantagens aos alunos</p>
+        </header>
+
+        <nav class="breadcrumb">
+            <a href="index.html">← Voltar ao Início</a>
+        </nav>
+
+        <div class="form-container">
+            <form id="empresaForm" class="form">
+                <div class="form-group">
+                    <label for="nome">Nome da Empresa *</label>
+                    <input type="text" id="nome" name="nome" required 
+                           placeholder="Digite o nome da empresa">
+                </div>
+
+                <div class="form-group">
+                    <label for="cnpj">CNPJ *</label>
+                    <input type="text" id="cnpj" name="cnpj" required 
+                           placeholder="00.000.000/0000-00" maxlength="18">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required 
+                           placeholder="contato@empresa.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha *</label>
+                    <input type="password" id="senha" name="senha" required 
+                           placeholder="Digite uma senha segura" minlength="6">
+                    <small class="help-text">Mínimo de 6 caracteres</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Cadastrar Empresa</button>
+                    <button type="reset" class="btn btn-secondary">Limpar</button>
+                </div>
+            </form>
+
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="cadastro-empresa.js"></script>
+</body>
+</html>
+

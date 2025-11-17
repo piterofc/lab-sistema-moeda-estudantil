@@ -101,3 +101,16 @@ Como sistema, quero proteger os dados pessoais dos usuários, para estar em conf
 
 <img width="951" height="901" alt="diagramaImplantacao drawio" src="https://github.com/user-attachments/assets/88335787-70ac-42e9-807c-289628c3b167" />
 
+---
+
+# Diagrama de Sequências
+
+## Cadastro de Vantagens
+
+<img width="2481" height="2338" alt="diagrama-sequencia-cadastro-vantagem drawio" src="https://github.com/user-attachments/assets/31b8a720-d0d2-4d08-af7d-a74ff937c7e9" />
+
+## Listagem de Vantagens
+
+<img width="1655" height="2339" alt="diagrama-sequencia-listagem-vantagens drawio" src="https://github.com/user-attachments/assets/a4a644ac-e844-46b3-9877-c1139f28d3d5" />
+
+
