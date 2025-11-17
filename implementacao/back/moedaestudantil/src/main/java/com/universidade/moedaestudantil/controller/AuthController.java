@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import com.universidade.moedaestudantil.config.security.TokenService;
 import com.universidade.moedaestudantil.model.Aluno;
 import com.universidade.moedaestudantil.model.EmpresaParceira;
+import com.universidade.moedaestudantil.model.Professor;
 import com.universidade.moedaestudantil.model.Usuario;
 import com.universidade.moedaestudantil.repository.UsuarioRepository;
 import com.universidade.moedaestudantil.service.AlunoService;
 import com.universidade.moedaestudantil.service.EmpresaParceiraService;
+import com.universidade.moedaestudantil.service.ProfessorService;
 import com.universidade.moedaestudantil.service.InstituicaoEnsinoService;
 
 import jakarta.validation.Valid;
@@ -30,6 +32,7 @@ public class AuthController {
 
     private final AlunoService alunoService;
     private final EmpresaParceiraService empresaService;
+    private final ProfessorService professorService;
     private final InstituicaoEnsinoService instituicaoService;
 
     @PostMapping("/login")
@@ -44,9 +47,10 @@ public class AuthController {
         }
 
         String token = tokenService.generateToken(user);
-        String tipo = "USER";
-        if (user instanceof Aluno) tipo = "ALUNO";
-        else if (user instanceof EmpresaParceira) tipo = "EMPRESA";
+    String tipo = "USER";
+    if (user instanceof Aluno) tipo = "ALUNO";
+    else if (user instanceof EmpresaParceira) tipo = "EMPRESA";
+    else if (user instanceof Professor) tipo = "PROFESSOR";
 
         return ResponseEntity.ok(new AuthResponse(token, tipo, user.getNome(), user.getEmail()));
     }
@@ -86,8 +90,22 @@ public class AuthController {
                 }
                 Aluno saved = alunoService.save(aluno);
                 return ResponseEntity.created(URI.create("/api/alunos/" + saved.getId())).body(saved);
+            } else if ("PROFESSOR".equals(tipo)) {
+                Professor professor = new Professor();
+                professor.setNome(req.getNome());
+                professor.setEmail(req.getEmail());
+                professor.setCpf(req.getCpf());
+                professor.setDepartamento(req.getDepartamento());
+                professor.setSenha(passwordEncoder.encode(req.getSenha()));
+                if (req.getInstituicaoId() != null) {
+                    instituicaoService.findById(req.getInstituicaoId())
+                        .orElseThrow(() -> new IllegalArgumentException("Instituição não encontrada"));
+                    professor.setInstituicao(instituicaoService.findById(req.getInstituicaoId()).get());
+                }
+                Professor savedProf = professorService.save(professor);
+                return ResponseEntity.created(URI.create("/api/professores/" + savedProf.getId())).body(savedProf);
             } else {
-                return ResponseEntity.badRequest().body(new ErrorResponse("Tipo inválido. Use 'ALUNO' ou 'EMPRESA'"));
+                return ResponseEntity.badRequest().body(new ErrorResponse("Tipo inválido. Use 'ALUNO', 'EMPRESA' ou 'PROFESSOR'"));
             }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
@@ -117,8 +135,9 @@ public class AuthController {
         private String cpf;
         private String rg;
         private String endereco;
-        private String curso;
-        private Long instituicaoId;
+    private String curso;
+    private String departamento;
+    private Long instituicaoId;
 
         public String getTipo() { return tipo; }
         public void setTipo(String tipo) { this.tipo = tipo; }
@@ -138,6 +157,8 @@ public class AuthController {
         public void setEndereco(String endereco) { this.endereco = endereco; }
         public String getCurso() { return curso; }
         public void setCurso(String curso) { this.curso = curso; }
+    public String getDepartamento() { return departamento; }
+    public void setDepartamento(String departamento) { this.departamento = departamento; }
         public Long getInstituicaoId() { return instituicaoId; }
         public void setInstituicaoId(Long instituicaoId) { this.instituicaoId = instituicaoId; }
     }

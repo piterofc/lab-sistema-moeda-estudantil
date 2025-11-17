@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.universidade.moedaestudantil.model.Usuario;
 import com.universidade.moedaestudantil.model.Aluno;
 import com.universidade.moedaestudantil.model.EmpresaParceira;
+import com.universidade.moedaestudantil.model.Professor;
 import com.universidade.moedaestudantil.repository.UsuarioRepository;
 
 @Component
@@ -25,9 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
       Usuario user = this.repository.findByEmail(username)
           .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
 
-      String role = "USER";
-      if (user instanceof Aluno) role = "ALUNO";
-      else if (user instanceof EmpresaParceira) role = "EMPRESA";
+  String role = "USER";
+  if (user instanceof Aluno) role = "ALUNO";
+  else if (user instanceof EmpresaParceira) role = "EMPRESA";
+  else if (user instanceof Professor) role = "PROFESSOR";
 
       return new org.springframework.security.core.userdetails.User(
           user.getEmail(),

@@ -15,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.universidade.moedaestudantil.model.Usuario;
 import com.universidade.moedaestudantil.model.Aluno;
 import com.universidade.moedaestudantil.model.EmpresaParceira;
+import com.universidade.moedaestudantil.model.Professor;
 import com.universidade.moedaestudantil.repository.UsuarioRepository;
 
 import jakarta.servlet.FilterChain;
@@ -56,6 +57,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 String role = "USER";
                 if (user instanceof Aluno) role = "ALUNO";
                 else if (user instanceof EmpresaParceira) role = "EMPRESA";
+                else if (user instanceof Professor) role = "PROFESSOR";
                 var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
