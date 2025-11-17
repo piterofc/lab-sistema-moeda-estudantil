@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrato - Aluno</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Meu Extrato - Aluno</h1>
+            <p>Visualize seu saldo e histórico de transações</p>
+        </header>
+
+        <nav class="breadcrumb">
+            <a href="index.html">← Voltar ao Início</a>
+        </nav>
+
+        <div class="form-container">
+            <div class="form-group">
+                <label for="aluno">Selecione o Aluno *</label>
+                <select id="aluno" name="aluno" required>
+                    <option value="">Selecione um aluno...</option>
+                </select>
+            </div>
+            <button id="consultarBtn" class="btn btn-primary">Consultar Extrato</button>
+        </div>
+
+        <div id="loading" class="loading">
+            <p>Carregando extrato...</p>
+        </div>
+
+        <div id="extrato-container" style="display: none;">
+            <div class="saldo-box">
+                <h2>💰 Saldo Atual</h2>
+                <div class="saldo-valor" id="saldo-valor">0.00 moedas</div>
+            </div>
+
+            <div class="transacoes-section">
+                <h2>📋 Histórico de Transações</h2>
+                <div id="transacoes-list" class="transacoes-list">
+                    <!-- Transações serão inseridas aqui -->
+                </div>
+            </div>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="extrato-aluno.js"></script>
+</body>
+</html>
+
