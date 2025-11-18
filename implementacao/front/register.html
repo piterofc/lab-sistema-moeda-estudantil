@@ -8,15 +8,18 @@
 </head>
 <body>
     <div class="container">
+        <header>
+            <h1>📝 Cadastrar</h1>
+            <p>Crie sua conta no sistema</p>
+        </header>
         <div class="form-container">
-            <h1>Cadastrar</h1>
             <form id="registerForm" class="form">
                 <div class="form-group">
                     <label for="tipo">Tipo</label>
                     <select id="tipo" name="tipo" required>
                         <option value="">Selecione...</option>
                         <option value="ALUNO">Aluno</option>
-                        <option value="PROFESSOR">Professor</option>
+                        <!--<option value="PROFESSOR">Professor</option>-->
                         <option value="EMPRESA">Empresa</option>
                     </select>
                 </div>
@@ -88,6 +91,7 @@
                     <div class="form-group"><label for="cpf">CPF</label><input id="cpf" name="cpf" type="text" required /></div>
                     <div class="form-group"><label for="rg">RG</label><input id="rg" name="rg" type="text" required /></div>
                     <div class="form-group"><label for="curso">Curso</label><input id="curso" name="curso" type="text" required /></div>
+                    <div class="form-group"><label for="endereco">Endereço</label><input id="endereco" name="endereco" type="text" /></div>
                 `;
             } else if (tipo === 'PROFESSOR') {
                 extra.innerHTML = `
@@ -127,6 +131,7 @@
             }
 
             if (tipo === 'ALUNO') {
+                payload.endereco = data.get('endereco') ? data.get('endereco').trim() : '';
                 payload.cpf = data.get('cpf') ? data.get('cpf').replace(/\D/g,'') : '';
                 payload.rg = data.get('rg') ? data.get('rg').trim() : '';
                 payload.curso = data.get('curso') ? data.get('curso').trim() : '';
@@ -138,6 +143,8 @@
             }
 
             try {
+                console.log('Enviando payload de registro:', payload);
+
                 const resp = await api.register(payload);
                 // Se resposta retornar token -> login automático
                 if (resp && resp.token) {

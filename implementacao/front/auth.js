@@ -34,71 +34,29 @@ const auth = (function () {
     async function renderNav() {
         const user = await getCurrentUser();
         const header = document.createElement('header');
-        header.style.padding = '12px 20px';
-        header.style.borderBottom = '1px solid #eee';
-        header.style.display = 'flex';
-        header.style.justifyContent = 'space-between';
-        header.style.alignItems = 'center';
-        header.style.background = '#fff';
+        header.style.cssText = `
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 1rem;
+            z-index: 1000;
+            margin: 0 auto 1.5rem;
+            border-radius: 12px;
+            max-width: 1200px;
+        `;
 
-        const left = document.createElement('div');
-        left.innerHTML = `<a href="index.html" style="text-decoration:none;color:#667eea;font-weight:700">💰 Sistema de Moeda Estudantil</a>`;
+        const title = document.createElement('div');
+        title.innerHTML = `<a href="index.html" style="text-decoration:none;color:#667eea;font-weight:700;font-size:1.75rem;display:flex;align-items:center;justify-content:center;gap:0.75rem;">💰 Sistema de Moeda Estudantil</a>`;
 
-        const right = document.createElement('div');
+        header.appendChild(title);
 
-        if (user) {
-            const nomeSpan = document.createElement('span');
-            nomeSpan.textContent = `${user.nome} (${user.tipo})`;
-            nomeSpan.style.marginRight = '12px';
-            const logoutBtn = document.createElement('button');
-            logoutBtn.textContent = 'Sair';
-            logoutBtn.className = 'btn btn-secondary';
-            logoutBtn.addEventListener('click', () => logout());
-
-            // Links por tipo
-            const links = document.createElement('span');
-            links.style.marginRight = '12px';
-
-            if (user.tipo === 'ALUNO') {
-                links.innerHTML = `
-                    <a href="listagem-vantagens.html" class="btn btn-link">Vantagens</a>
-                    <a href="resgate-vantagem.html" class="btn btn-link">Resgatar</a>
-                    <a href="extrato-aluno.html" class="btn btn-link">Meu Extrato</a>
-                `;
-            } else if (user.tipo === 'PROFESSOR') {
-                links.innerHTML = `
-                    <a href="envio-moedas.html" class="btn btn-link">Enviar Moedas</a>
-                    <a href="extrato-professor.html" class="btn btn-link">Meu Extrato</a>
-                `;
-            } else if (user.tipo === 'EMPRESA') {
-                links.innerHTML = `
-                    <a href="cadastro-vantagem.html" class="btn btn-link">Cadastrar Vantagem</a>
-                    <a href="listagem-vantagens.html" class="btn btn-link">Minhas Vantagens</a>
-                `;
-            } else {
-                links.innerHTML = `<a href="index.html" class="btn btn-link">Início</a>`;
-            }
-
-            right.appendChild(links);
-            right.appendChild(nomeSpan);
-            right.appendChild(logoutBtn);
-        } else {
-            right.innerHTML = `
-                <a href="login.html" class="btn btn-primary" style="margin-right:8px">Entrar</a>
-                <a href="register.html" class="btn btn-secondary">Cadastrar</a>
-            `;
-        }
-
-        header.appendChild(left);
-        header.appendChild(right);
-
-        // Insere antes do primeiro elemento .container ou no body
-        const container = document.querySelector('.container');
-        if (container) {
-            container.parentNode.insertBefore(header, container);
-        } else {
-            document.body.insertBefore(header, document.body.firstChild);
-        }
+        // Insere no início do body
+        document.body.insertBefore(header, document.body.firstChild);
     }
 
     // Ao carregar cada página, renderiza nav automaticamente
