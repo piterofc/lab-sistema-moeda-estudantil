@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrato - Professor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Meu Extrato - Professor</h1>
+            <p>Visualize seu saldo e histórico de envios de moedas</p>
+        </header>
+
+        <nav class="breadcrumb">
+            <a href="index.html">← Voltar ao Início</a>
+        </nav>
+
+        <div class="form-container">
+            <!-- Não há seleção de professor: o extrato sempre é do usuário autenticado -->
+            <input type="hidden" id="hidden-professor-id" name="professor" />
+            <!--<div id="current-professor-placeholder" class="form-group"></div>-->
+        </div>
+
+        <div id="loading" class="loading">
+            <p>Carregando extrato...</p>
+        </div>
+
+        <div id="extrato-container" style="display: none;">
+            <div class="saldo-box">
+                <h2>💰 Saldo Disponível</h2>
+                <div class="saldo-valor" id="saldo-valor">0.00 moedas</div>
+            </div>
+
+            <div class="transacoes-section">
+                <h2>📋 Histórico de Envios</h2>
+                <div id="transacoes-list" class="transacoes-list">
+                    <!-- Transações serão inseridas aqui -->
+                </div>
+            </div>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="extrato-professor.js"></script>
+</body>
+</html>
+
