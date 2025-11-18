@@ -107,10 +107,17 @@ Como sistema, quero proteger os dados pessoais dos usuários, para estar em conf
 
 ## Cadastro de Vantagens
 
-<img width="2481" height="2338" alt="diagrama-sequencia-cadastro-vantagem drawio" src="https://github.com/user-attachments/assets/31b8a720-d0d2-4d08-af7d-a74ff937c7e9" />
+<img width="3493" height="2891" alt="Cadastro de Vantagens (Empresa Parceira) drawio" src="https://github.com/user-attachments/assets/85937351-5ea0-457c-9eda-62ea9fde2406" />
 
 ## Listagem de Vantagens
 
-<img width="1655" height="2339" alt="diagrama-sequencia-listagem-vantagens drawio" src="https://github.com/user-attachments/assets/a4a644ac-e844-46b3-9877-c1139f28d3d5" />
+<img width="2910" height="2065" alt="Listagem de Vantagens (Aluno) drawio" src="https://github.com/user-attachments/assets/879af832-abfe-4333-b0b2-2d5ff277703e" />
 
+## Envio de Moedas
+
+<img width="4075" height="4543" alt="Envio de Moedas (Professor para Aluno) drawio" src="https://github.com/user-attachments/assets/a42f9dd5-5f3c-40a2-b9d2-67889f25677c" />
+
+## Consultas de Extrato
+
+<img width="3201" height="2891" alt="Extrato do Professor drawio" src="https://github.com/user-attachments/assets/d981ce29-c28d-42eb-90ef-e3e31c7dd696" />
 
