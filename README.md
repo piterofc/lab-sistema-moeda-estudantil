@@ -14,110 +14,211 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 
 ---
 
-# Historias de Usuario
+# Histórias de Usuário - Sistema de Moeda Estudantil
 
-Épico 1: Gestão e Configuração
+## Épico 1: Gestão e Configuração (Funcionalidades da Instituição/Operação)
 
-Como operador, quero gerenciar as instituições participantes, para manter apenas instituições válidas e pré-cadastradas.
+### US01: Gerenciar Instituições Participantes
 
-Como operador, quero importar e manter a lista de professores, para que possam ativar suas contas e distribuir moedas.
+**Como** um Administrador,  
+**Eu quero** criar, visualizar, editar e inativar instituições participantes,  
+**Para que** os alunos se vinculem apenas a instituições válidas e pré-cadastradas.
 
-Como operador, quero aprovar ou inativar parceiros e revisar vantagens cadastradas, para garantir qualidade e conformidade no catálogo.
+### US02: Gerenciar Professores Pré-Cadastrados
 
-Como parceiro, quero gerenciar minhas vantagens com título, descrição, foto e custo em moedas, para manter as ofertas atualizadas.
+**Como** um Administrador,  
+**Eu quero** importar e manter a lista de professores (nome, email, CPF, departamento, instituição),  
+**Para que** os docentes possam ativar suas contas e distribuir moedas.
 
-Como parceiro (empresa), quero me cadastrar informando meus dados e CNPJ, para poder oferecer vantagens no sistema.
+### US03: Gerenciar Parceiros e Vantagens (Curadoria/Aprovação)
 
-Épico 2: Jornada do Aluno
+**Como** um Administrador,  
+**Eu quero** aprovar ou inativar parceiros e revisar vantagens cadastradas (descrição, foto, custo em moedas),  
+**Para que** o catálogo mantenha qualidade e conformidade.
 
-Como aluno, quero realizar meu cadastro informando meus dados pessoais e acadêmicos, para participar do sistema de mérito.
+### US04: Gerenciar Catálogo de Vantagens (Parceiro)
 
-Como usuário, quero fazer login com e-mail e senha, para acessar as funcionalidades do meu perfil.
+**Como** um Parceiro,  
+**Eu quero** criar, visualizar, editar e inativar vantagens com descrição, foto e custo em moedas,  
+**Para que** os alunos tenham ofertas atualizadas para resgate.
 
-Como aluno, quero consultar meu extrato de moedas, para acompanhar meu saldo e histórico de transações.
+### US21: Cadastrar-se como Parceiro
 
-Como aluno, quero trocar minhas moedas por vantagens, para usufruir dos benefícios oferecidos.
+**Como** uma Empresa Parceira,  
+**Eu quero** me cadastrar informando CNPJ, nome, email e senha,  
+**Para que** eu possa oferecer vantagens aos alunos no sistema.
 
-Épico 3: Distribuição de Moedas (Professor)
+---
 
-Como professor, quero receber automaticamente 1.000 moedas a cada semestre, para reconhecer meus alunos continuamente.
+## Épico 2: Jornada do Aluno
 
-Como professor, quero enviar moedas a um aluno informando o motivo, para reconhecer seu bom desempenho.
+### US05: Cadastrar-se no Sistema (Aluno)
 
-Como professor, quero consultar meu extrato de moedas, para acompanhar meu saldo e transações.
+**Como** um Aluno,  
+**Eu quero** me cadastrar informando nome, email, CPF, RG, endereço, instituição (seleção em lista pré-cadastrada) e curso,  
+**Para que** eu possa participar do sistema de mérito.
 
-Como professor, quero visualizar a instituição e o departamento aos quais estou vinculado, para confirmar meu vínculo.
+### US06: Realizar Login no Sistema (Usuário)
 
-Épico 4: Processos e Notificações
+**Como** um Usuário (Aluno, Professor ou Parceiro),  
+**Eu quero** fazer login usando meu email e senha,  
+**Para que** eu acesse as funcionalidades correspondentes ao meu perfil.
 
-Como sistema, quero enviar um e-mail ao aluno ao receber moedas, para notificá-lo sobre o reconhecimento.
+### US07: Consultar Meus Extratos (Aluno)
 
-Como sistema, quero enviar um e-mail com o cupom e o código de troca, para que o aluno utilize o benefício presencialmente.
+**Como** um Aluno,  
+**Eu quero** visualizar meu saldo de moedas e o histórico de recebimentos e resgates,  
+**Para que** eu acompanhe minhas transações e planeje novos resgates.
 
-Como sistema, quero enviar um e-mail ao parceiro com os dados do resgate, para que ele valide a troca.
+### US08: Resgatar Vantagem (Aluno)
 
-Como parceiro, quero validar o código do cupom, para confirmar o uso do benefício.
+**Como** um Aluno,  
+**Eu quero** selecionar uma vantagem do catálogo e concluir o resgate com débito do meu saldo e geração de um código único,  
+**Para que** eu possa usufruir do benefício e comprovar a troca presencialmente.
 
-Épico 5: Segurança e Conformidade
+---
 
-Como professor, quero ativar minha conta a partir do pré-cadastro, para acessar o sistema e distribuir moedas.
+## Épico 3: Distribuição de Moedas (Professor)
 
-Como usuário, quero recuperar minha senha por e-mail, para voltar a acessar o sistema com segurança.
+### US09: Receber Crédito Semestral Acumulável
 
-Como sistema, quero impedir transações sem saldo, para manter a contabilidade correta.
+**Como** um Professor,  
+**Eu quero** receber automaticamente 1.000 moedas a cada semestre, somando ao meu saldo caso não as utilize integralmente,  
+**Para que** eu disponha de recursos contínuos para reconhecer meus alunos.
 
-Como sistema, quero restringir que professores premiem apenas alunos da mesma instituição, para evitar operações indevidas.
+### US10: Enviar Moedas para Aluno (com motivo obrigatório)
 
-Como sistema, quero proteger os dados pessoais dos usuários, para estar em conformidade com a LGPD.
+**Como** um Professor,  
+**Eu quero** enviar moedas a um aluno da minha instituição indicando a quantidade e um motivo obrigatório,  
+**Para que** eu reconheça bom comportamento, participação e desempenho acadêmico.
+
+### US11: Consultar Meu Extrato (Professor)
+
+**Como** um Professor,  
+**Eu quero** visualizar meu saldo e o histórico de créditos semestrais e envios realizados,  
+**Para que** eu acompanhe e audite a distribuição de moedas.
+
+### US22: Visualizar Vínculo Institucional (Professor)
+
+**Como** um Professor,  
+**Eu quero** ver de forma explícita a instituição e o departamento aos quais estou vinculado,  
+**Para que** eu confirme meu vínculo e atue dentro do escopo correto.
+
+---
+
+## Épico 4: Processos e Notificações (Funcionalidades do Sistema)
+
+### US12: Notificar Aluno sobre Recebimento de Moedas
+
+**Como** o Sistema,  
+**Eu quero** enviar e-mail ao aluno sempre que ele receber moedas (com remetente, quantidade e motivo),  
+**Para que** ele seja informado do reconhecimento.
+
+### US13: Enviar Cupom de Resgate ao Aluno
+
+**Como** o Sistema,  
+**Eu quero** enviar ao aluno um e-mail com o cupom do resgate (código único e validade),  
+**Para que** ele utilize o benefício na troca presencial.
+
+### US14: Notificar Parceiro sobre Resgate
+
+**Como** o Sistema,  
+**Eu quero** enviar ao parceiro um e-mail com o mesmo código do cupom e dados do resgate,  
+**Para que** ele possa conferir e registrar a utilização.
+
+### US15: Validar Código de Cupom (Parceiro)
+
+**Como** um Parceiro,  
+**Eu quero** informar o código do cupom e visualizar seu status (válido, expirado ou utilizado),  
+**Para que** eu confirme a troca no atendimento.
+
+---
+
+## Épico 5: Segurança, Autenticação e Conformidade
+
+### US16: Ativar Conta a partir de Pré-Cadastro (Professor)
+
+**Como** um Professor,  
+**Eu quero** ativar minha conta a partir do pré-cadastro recebido, definindo minha senha,  
+**Para que** eu possa acessar o sistema e distribuir moedas.
+
+### US17: Recuperar Acesso (Esqueci Minha Senha)
+
+**Como** um Usuário,  
+**Eu quero** recuperar minha senha por e-mail,  
+**Para que** eu volte a acessar o sistema com segurança.
+
+### US18: Impedir Transações sem Saldo
+
+**Como** o Sistema,  
+**Eu quero** bloquear envios e resgates quando o saldo for insuficiente,  
+**Para que** a contabilidade de moedas permaneça consistente.
+
+### US19: Restringir Escopo por Instituição
+
+**Como** o Sistema,  
+**Eu quero** restringir que professores encontrem e premiem apenas alunos da própria instituição,  
+**Para que** se evitem operações cruzadas indevidas.
+
+### US20: Proteger Dados Pessoais (LGPD)
+
+**Como** o Sistema,  
+**Eu quero** armazenar e transmitir dados de forma segura e aplicar máscaras a documentos,  
+**Para que** o tratamento esteja em conformidade com a LGPD.
+
+---
 
 # Diagrama de Casos de Uso
-<img width="875" height="1937" alt="CasosUso drawio" src="https://github.com/user-attachments/assets/c24627f0-ead9-4036-802e-a334fcc87e7e" />
+
+<img width="625" height="852" alt="diagrama caso de uso moeda estudantil" src="https://github.com/user-attachments/assets/5f50ae9a-ac71-45ce-9181-5402732e40d0" />
 
 ---
 
 # Diagrama de Classes
-<img width="1572" height="881" alt="Class Diagram22222" src="https://github.com/user-attachments/assets/d99e8ce6-04c0-4f9e-b1ec-106d95977fea" />
 
+<img width="2172" height="1222" alt="diagrama de classes moeda estudantil" src="https://github.com/user-attachments/assets/9b9b90a9-6e35-45e2-a74f-af07a777ecea" />
 
 ---
 
 # Diagrama de Componentes
 
-<img width="961" height="1151" alt="diagrama_componentes drawio (1)" src="https://github.com/user-attachments/assets/cb8c5e41-df4e-4760-ae87-9c53e3768f1f" />
-
-
+<img width="1820" height="474" alt="diagrama componentes moeda estudantil" src="https://github.com/user-attachments/assets/51b6c181-847d-4603-8c81-81b0b064a06e" />
 
 ---
 
 # Diagrama ER
 
-<img width="1081" height="891" alt="diagramaER drawio" src="https://github.com/user-attachments/assets/06078276-5398-406b-ba14-b6d3f7f9a757" />
-
+<img width="843" height="759" alt="diagrama er moeda estudantil" src="https://github.com/user-attachments/assets/03b30386-7bee-4ebc-a34c-c5b9b955f58b" />
 
 ---
 
 # Diagrama de Implantação
 
-
-<img width="951" height="901" alt="diagramaImplantacao drawio" src="https://github.com/user-attachments/assets/88335787-70ac-42e9-807c-289628c3b167" />
+<img width="1831" height="580" alt="diagrama implantação moeda estudantil" src="https://github.com/user-attachments/assets/5f8d8c09-ceb5-4925-87d1-368c54a492a2" />
 
 ---
 
 # Diagrama de Sequências
 
-## Cadastro de Vantagens
+## Cadastro de Vantagens (empresa parceira)
 
-<img width="3493" height="2891" alt="Cadastro de Vantagens (Empresa Parceira) drawio" src="https://github.com/user-attachments/assets/85937351-5ea0-457c-9eda-62ea9fde2406" />
+<img width="1429" height="3115" alt="diagrama sequencia cadastro vantagem moeda estudantil" src="https://github.com/user-attachments/assets/bf36727a-d3ed-43ce-96e6-a347b49a4c6d" />
 
-## Listagem de Vantagens
+## Listagem de Vantagens (aluno)
 
-<img width="2910" height="2065" alt="Listagem de Vantagens (Aluno) drawio" src="https://github.com/user-attachments/assets/879af832-abfe-4333-b0b2-2d5ff277703e" />
+<img width="1130" height="1963" alt="diagrama sequencia listagem vantagem moeda estudantil" src="https://github.com/user-attachments/assets/11d63195-cfe4-4117-9837-0bc98eb7cdc1" />
 
-## Envio de Moedas
+## Envio de Moedas (professores e alunos)
 
-<img width="4075" height="4543" alt="Envio de Moedas (Professor para Aluno) drawio" src="https://github.com/user-attachments/assets/a42f9dd5-5f3c-40a2-b9d2-67889f25677c" />
+<img width="2511" height="7636" alt="diagrama sequencia envio moeda estudantil" src="https://github.com/user-attachments/assets/e0f89693-5527-4c7d-8782-df12cc1afdd1" />
 
-## Consultas de Extrato
+## Consultas de Extrato (professores e alunos)
 
-<img width="3201" height="2891" alt="Extrato do Professor drawio" src="https://github.com/user-attachments/assets/d981ce29-c28d-42eb-90ef-e3e31c7dd696" />
+<img width="2230" height="7240" alt="diagrama sequencia extrato moeda estudantil" src="https://github.com/user-attachments/assets/ace73afb-187c-467d-b233-62c8cdb5c05f" />
+
+## Troca/Resgate de Vantagens (aluno)
+
+<img width="2915" height="9582" alt="diagrama sequencia resgate vantagem moeda estudantil" src="https://github.com/user-attachments/assets/7ee4d653-ae6c-4f16-9105-a5be310ea59a" />
+
+
 
