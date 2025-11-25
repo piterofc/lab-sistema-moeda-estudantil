@@ -15,11 +15,17 @@ async function carregarVantagens() {
     try {
         showLoading(true);
         hideMessage();
-        
-        const vantagens = await api.getVantagens();
-        
+
+        let eu = await api.me();
+        let vantagens = await api.getVantagens();
+
+        if (eu && eu.tipo == 'EMPRESA') {
+            // Remover vantagens de outras empresas
+            vantagens = vantagens.filter(v => v.empresaId === eu.id);
+        }
+
         if (vantagens && vantagens.length > 0) {
-            exibirVantagens(vantagens);
+            await exibirVantagens(vantagens);
         } else {
             exibirEmptyState();
         }
@@ -34,11 +40,13 @@ async function carregarVantagens() {
 }
 
 // Exibir vantagens na tela
-function exibirVantagens(vantagens) {
+async function exibirVantagens(vantagens) {
     const container = document.getElementById('vantagens-container');
     container.innerHTML = '';
-    
+
     vantagens.forEach(vantagem => {
+        console.log('Vantagem:', vantagem);
+
         const card = criarCardVantagem(vantagem);
         container.appendChild(card);
     });
@@ -52,7 +60,7 @@ function criarCardVantagem(vantagem) {
     // Badge da empresa
     const empresaBadge = document.createElement('div');
     empresaBadge.className = 'empresa-badge';
-    empresaBadge.textContent = vantagem.empresa?.nome || 'Empresa';
+    empresaBadge.textContent = vantagem.empresaNome || 'Empresa';
     card.appendChild(empresaBadge);
     
     // Imagem (se houver)

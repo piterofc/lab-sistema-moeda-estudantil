@@ -69,10 +69,10 @@ function criarItemTransacao(transacao) {
     
     item.innerHTML = `
         <div class="transacao-header">
-            <span class="transacao-tipo envio">📤 Envio de Moedas</span>
+            <span class="transacao-tipo resgate">📤 Envio de Moedas</span>
             <span class="transacao-data">${data}</span>
         </div>
-        <div class="transacao-valor envio">
+        <div class="transacao-valor resgate">
             - ${quantidade} moedas
         </div>
         <div class="transacao-motivo">

@@ -127,11 +127,13 @@ public class TransacaoService {
         aluno.setSaldo(aluno.getSaldo() - vantagem.getCusto());
         alunoRepo.save(aluno);
 
+        /*
         // Gera código do cupom se não existir
         if (vantagem.getCodigoCupom() == null || vantagem.getCodigoCupom().isEmpty()) {
             vantagem.setCodigoCupom("CUPOM-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
             vantagemRepo.save(vantagem);
         }
+        */
 
         // Configura a transação
         transacao.setAluno(aluno);

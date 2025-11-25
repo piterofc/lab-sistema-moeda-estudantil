@@ -38,7 +38,7 @@ const auth = (function () {
             padding: 1.5rem 2rem;
             border-bottom: 2px solid #e9ecef;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             background: #ffffff;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -48,12 +48,54 @@ const auth = (function () {
             margin: 0 auto 1.5rem;
             border-radius: 12px;
             max-width: 1200px;
+            width: 100%;
+            box-sizing: border-box;
         `;
 
         const title = document.createElement('div');
-        title.innerHTML = `<a href="index.html" style="text-decoration:none;color:#667eea;font-weight:700;font-size:1.75rem;display:flex;align-items:center;justify-content:center;gap:0.75rem;">💰 Sistema de Moeda Estudantil</a>`;
+        title.style.cssText = `display:flex;align-items:center;gap:0.75rem;`;
+        title.innerHTML = `<a href="index.html" style="text-decoration:none;color:#667eea;font-weight:700;font-size:1.75rem;display:flex;align-items:center;gap:0.75rem;">💰 Sistema de Moeda Estudantil</a>`;
 
         header.appendChild(title);
+
+        // Adiciona botão de logout se usuário estiver autenticado
+        if (user) {
+            const logoutContainer = document.createElement('div');
+            logoutContainer.style.cssText = `
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-left: auto;
+            `;
+
+            // Mostra nome do usuário (opcional)
+            const userInfo = document.createElement('span');
+            userInfo.style.cssText = `
+                color: #6c757d;
+                font-size: 0.9rem;
+                font-weight: 500;
+            `;
+            userInfo.textContent = user.nome || user.email || 'Usuário';
+            logoutContainer.appendChild(userInfo);
+
+            // Botão de logout
+            const logoutBtn = document.createElement('button');
+            logoutBtn.textContent = '🚪 Sair';
+            logoutBtn.className = 'btn btn-danger';
+            logoutBtn.style.cssText = `
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                min-width: auto;
+            `;
+            logoutBtn.addEventListener('click', () => {
+                if (confirm('Deseja realmente sair do sistema?')) {
+                    logout();
+                }
+            });
+            logoutContainer.appendChild(logoutBtn);
+
+            header.appendChild(logoutContainer);
+        }
 
         // Insere no início do body
         document.body.insertBefore(header, document.body.firstChild);

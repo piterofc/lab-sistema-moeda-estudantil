@@ -1,6 +1,7 @@
 package com.universidade.moedaestudantil.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -81,6 +82,16 @@ public class Vantagem {
 
     public void setEmpresa(EmpresaParceira empresa) {
         this.empresa = empresa;
+    }
+
+    @JsonProperty("empresaId")
+    public Long getEmpresaId() {
+        return (this.empresa != null) ? this.empresa.getId() : null;
+    }
+
+    @JsonProperty("empresaNome")
+    public String getEmpresaNome() {
+        return (this.empresa != null) ? this.empresa.getNome() : null;
     }
 
 }
