@@ -58,10 +58,10 @@ async function carregarVantagens() {
             vantagens.forEach(vantagem => {
                 const option = document.createElement('option');
                 option.value = vantagem.id;
-                option.textContent = `${vantagem.descricao} - ${vantagem.custo} moedas`;
+                option.textContent = `${vantagem.descricao} (${vantagem.empresaNome}) - ${vantagem.custo} moedas`;
                 option.dataset.descricao = vantagem.descricao;
                 option.dataset.custo = vantagem.custo;
-                option.dataset.empresa = vantagem.empresa?.nome || 'Empresa';
+                option.dataset.empresa = vantagem.empresaNome || 'Empresa';
                 selectVantagem.appendChild(option);
             });
         } else {
@@ -144,7 +144,7 @@ async function handleSubmit(event) {
     const transacao = {
         tipo: 'RESGATE',
         quantidade: vantagem.custo,
-        motivo: `Resgate da vantagem: ${vantagem.descricao}`,
+        motivo: `Resgate da vantagem ID ${vantagem.id}`,
         aluno: { id: alunoId },
         vantagem: { id: vantagemId }
     };
