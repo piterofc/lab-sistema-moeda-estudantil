@@ -221,4 +221,31 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 <img width="2915" height="9582" alt="diagrama sequencia resgate vantagem moeda estudantil" src="https://github.com/user-attachments/assets/7ee4d653-ae6c-4f16-9105-a5be310ea59a" />
 
 
+# Diagrama de comunicação.
+
+## Cadastro de vantagens
+
+<img width="973" height="557" alt="image" src="https://github.com/user-attachments/assets/7a81b95c-e628-49b8-9850-da634ce11847" />
+
+## Envio de moedas
+
+<img width="846" height="556" alt="image" src="https://github.com/user-attachments/assets/c5b35d91-835a-44bf-b3ce-2caf8f423440" />
+
+## Consultas de extrato
+
+<img width="517" height="554" alt="image" src="https://github.com/user-attachments/assets/4a8795cc-502c-41f0-ab15-ddf133bd1b42" />
+
+## Troca/Resgate de vantagens
+
+<img width="1335" height="409" alt="image" src="https://github.com/user-attachments/assets/15f8ab17-5579-4c46-a98c-784c56961654" />
+
+## Enviar cupons 
+
+<img width="348" height="554" alt="image" src="https://github.com/user-attachments/assets/75e69298-0609-4a4a-9e8f-c8c0dc883fa4" />
+
+
+
+
+
+
 
