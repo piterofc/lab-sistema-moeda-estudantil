@@ -84,14 +84,37 @@ public class Vantagem {
         this.empresa = empresa;
     }
 
+    @jakarta.persistence.Transient
     @JsonProperty("empresaId")
     public Long getEmpresaId() {
         return (this.empresa != null) ? this.empresa.getId() : null;
     }
 
+    @JsonProperty("empresaId")
+    public void setEmpresaId(Long empresaId) {
+        if (empresaId == null) {
+            this.empresa = null;
+            return;
+        }
+        if (this.empresa == null) {
+            this.empresa = new EmpresaParceira();
+        }
+        this.empresa.setId(empresaId);
+    }
+
+    @jakarta.persistence.Transient
     @JsonProperty("empresaNome")
     public String getEmpresaNome() {
         return (this.empresa != null) ? this.empresa.getNome() : null;
+    }
+
+    @JsonProperty("empresaNome")
+    public void setEmpresaNome(String empresaNome) {
+        if (empresaNome == null) return;
+        if (this.empresa == null) {
+            this.empresa = new EmpresaParceira();
+        }
+        this.empresa.setNome(empresaNome);
     }
 
 }
