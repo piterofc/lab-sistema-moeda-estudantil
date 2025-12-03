@@ -164,10 +164,10 @@ public class TransacaoService {
         // Enviar email de notificação ao aluno
         String assunto = "Notificação de Resgate de Vantagem";
 
-        String conteudoAluno = String.format("Olá %s,\n\nVocê resgatou a vantagem: %s.\nCusto: %d moedas estudantis.\nCupom: %s\n\nAtenciosamente,\nSistema de Moeda Estudantil",
+        String conteudoAluno = String.format("Olá %s,\n\nVocê resgatou a vantagem: %s.\nCusto: %f moedas estudantis.\nCupom: %s\n\nAtenciosamente,\nSistema de Moeda Estudantil",
                 aluno.getNome(), vantagem.getDescricao(), vantagem.getCusto(), transacao.getVantagemCupom());
 
-        String conteudoEmpresa = String.format("Atenção %s,\n\nO aluno %s resgatou a vantagem: %s.\nCusto: %d moedas estudantis.\nCupom: %s\n\nAtenciosamente,\nSistema de Moeda Estudantil",
+        String conteudoEmpresa = String.format("Atenção %s,\n\nO aluno %s resgatou a vantagem: %s.\nCusto: %f moedas estudantis.\nCupom: %s\n\nAtenciosamente,\nSistema de Moeda Estudantil",
                 vantagem.getEmpresa().getNome(), aluno.getNome(), vantagem.getDescricao(), vantagem.getCusto(), transacao.getVantagemCupom());
 
         // Email para o aluno
