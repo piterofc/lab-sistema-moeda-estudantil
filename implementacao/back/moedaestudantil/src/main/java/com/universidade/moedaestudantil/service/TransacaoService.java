@@ -113,7 +113,7 @@ public class TransacaoService {
 
         // Enviar email de notificação ao aluno
         String assunto = "Notificação de Recebimento de Moeda Estudantil";
-        String conteudo = String.format("Olá %s,\n\nVocê recebeu %d moedas estudantis do professor %s.\nMotivo especificado: %s\n\nAtenciosamente,\nSistema de Moeda Estudantil",
+        String conteudo = String.format("Olá %s,\n\nVocê recebeu %f moedas estudantis do professor %s.\nMotivo especificado: %s\n\nAtenciosamente,\nSistema de Moeda Estudantil",
                 aluno.getNome(), transacao.getQuantidade(), professor.getNome(), transacao.getMotivo());
 
         try {
