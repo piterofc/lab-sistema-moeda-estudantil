@@ -93,6 +93,11 @@
 			<version>${springdoc-openapi.version}</version>
 		</dependency>
 
+		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
 		<!-- H2 (opcional, para testes)
 		<dependency>
 			<groupId>com.h2database</groupId>

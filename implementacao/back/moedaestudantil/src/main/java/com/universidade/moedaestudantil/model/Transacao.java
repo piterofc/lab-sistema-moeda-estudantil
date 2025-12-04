@@ -13,9 +13,9 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull(message = "Quantidade é obrigatória")
+    // @NotNull(message = "Quantidade é obrigatória")
     @Positive(message = "Quantidade deve ser positiva")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Double quantidade;
     
     @NotBlank(message = "Motivo é obrigatório")
@@ -40,7 +40,10 @@ public class Transacao {
     @ManyToOne
     @JoinColumn(name = "vantagem_id")
     private Vantagem vantagem;
-    
+
+    @Column(nullable = true)
+    private String vantagemCupom;
+
     @PrePersist
     protected void onCreate() {
         if (data == null) {
@@ -110,6 +113,14 @@ public class Transacao {
 
     public void setVantagem(Vantagem vantagem) {
         this.vantagem = vantagem;
+    }
+
+    public String getVantagemCupom() {
+        return vantagemCupom;
+    }
+
+    public void setVantagemCupom(String vantagemCupom) {
+        this.vantagemCupom = vantagemCupom;
     }
 
 }

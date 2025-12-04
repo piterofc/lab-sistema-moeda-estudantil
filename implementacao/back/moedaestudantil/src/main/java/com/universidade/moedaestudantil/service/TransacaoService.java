@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,9 @@ public class TransacaoService {
     private final AlunoRepository alunoRepo;
     private final ProfessorRepository professorRepo;
     private final VantagemRepository vantagemRepo;
+
+    @Autowired
+    private EmailService emailService;
 
     public TransacaoService(TransacaoRepository transacaoRepo, AlunoRepository alunoRepo,
                            ProfessorRepository professorRepo, VantagemRepository vantagemRepo) {
@@ -105,7 +109,20 @@ public class TransacaoService {
         transacao.setAluno(aluno);
         transacao.setTipo("ENVIO");
 
-        return save(transacao);
+        save(transacao);
+
+        // Enviar email de notificação ao aluno
+        String assunto = "Notificação de Recebimento de Moeda Estudantil";
+        String conteudo = String.format("Olá %s,\n\nVocê recebeu %f moedas estudantis do professor %s.\nMotivo especificado: %s\n\nAtenciosamente,\nSistema de Moeda Estudantil",
+                aluno.getNome(), transacao.getQuantidade(), professor.getNome(), transacao.getMotivo());
+
+        try {
+            emailService.sendMail(aluno.getEmail(), assunto, conteudo);
+        } catch (Exception e) {
+            System.err.println("Falha ao enviar email para o aluno: " + e.getMessage());
+        }
+
+        return transacao;
     }
 
     private Transacao processarResgate(Transacao transacao) {
@@ -140,6 +157,32 @@ public class TransacaoService {
         transacao.setVantagem(vantagem);
         transacao.setQuantidade(vantagem.getCusto());
         transacao.setTipo("RESGATE");
+        transacao.setVantagemCupom("CUPOM-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+
+        System.out.println("Transação de resgate processada. Cupom gerado: " + transacao.getVantagemCupom());
+
+        // Enviar email de notificação ao aluno
+        String assunto = "Notificação de Resgate de Vantagem";
+
+        String conteudoAluno = String.format("Olá %s,\n\nVocê resgatou a vantagem: %s.\nCusto: %f moedas estudantis.\nCupom: %s\n\nAtenciosamente,\nSistema de Moeda Estudantil",
+                aluno.getNome(), vantagem.getDescricao(), vantagem.getCusto(), transacao.getVantagemCupom());
+
+        String conteudoEmpresa = String.format("Atenção %s,\n\nO aluno %s resgatou a vantagem: %s.\nCusto: %f moedas estudantis.\nCupom: %s\n\nAtenciosamente,\nSistema de Moeda Estudantil",
+                vantagem.getEmpresa().getNome(), aluno.getNome(), vantagem.getDescricao(), vantagem.getCusto(), transacao.getVantagemCupom());
+
+        // Email para o aluno
+        try {
+            emailService.sendMail(aluno.getEmail(), assunto, conteudoAluno);
+        } catch (Exception e) {
+            System.err.println("Falha ao enviar email para o aluno: " + e.getMessage());
+        }
+
+        // Email para a empresa parceira
+        try {
+            emailService.sendMail(vantagem.getEmpresa().getEmail(), assunto, conteudoEmpresa);
+        } catch (Exception e) {
+            System.err.println("Falha ao enviar email para a empresa parceira: " + e.getMessage());
+        }
 
         return save(transacao);
     }
